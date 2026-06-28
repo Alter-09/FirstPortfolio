@@ -1,0 +1,17 @@
+Diego León
+Full Stack Developer
+
+Profile
+I am a developer focused on building practical software, improving workflows, and creating useful digital experiences. My work blends full-stack development, AI-assisted development, and hands-on problem solving.
+
+Experience
+- Software Developer at MySQL
+- Independent builder of practical web and productivity projects
+
+Skills
+- JavaScript, HTML, CSS, Python, MySQL, Docker
+- React, Next.js, Tailwind, REST APIs
+- Git, VS Code, AI-assisted development
+
+Contact
+GitHub: https://github.com/Alter-09
