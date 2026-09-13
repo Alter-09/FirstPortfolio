@@ -3,7 +3,27 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
+  /* MetaNav Neubrutalist Palette */
+  --red: #c30f1f;
+  --red-dark: #8f0b17;
+  --ink: #171717;
+  --paper: #f1eee7;
+  --white: #fffdf7;
+  --yellow: #f4c430;
+  --teal: #137c78;
+  --muted: #9a948a;
+  --line: #302d29;
+
+  /* Shadows */
+  --shadow: 7px 7px 0 var(--ink);
+  --shadow-sm: 3px 3px 0 var(--ink);
+  --shadow-hover: 2px 2px 0 var(--ink);
+
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 html {
@@ -11,13 +31,45 @@ html {
 }
 
 body {
-  @apply min-h-screen bg-slate-950 text-slate-100 antialiased;
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  background-image: radial-gradient(circle at top left, rgba(34, 211, 238, 0.16), transparent 30%), linear-gradient(135deg, rgba(15, 23, 42, 0.98), rgba(2, 6, 23, 1));
+  margin: 0;
+  background: var(--ink);
+  color: var(--ink);
+  font-size: 18px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 ::selection {
-  @apply bg-cyan-500/40 text-white;
+  background: var(--yellow);
+  color: var(--ink);
+}
+
+/* ── Neubrutalist Utilities ── */
+
+@layer utilities {
+  .neo-shadow {
+    border: 3px solid var(--ink);
+    box-shadow: var(--shadow);
+  }
+
+  .neo-shadow-sm {
+    border: 2px solid var(--ink);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .neo-shadow-hover {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .neo-shadow-hover:hover {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-hover);
+  }
+
+  .dot-grid {
+    background-image: radial-gradient(#d4cfc5 0.8px, transparent 0.8px);
+    background-size: 12px 12px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -29,5 +81,16 @@ body {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
   }
 }
