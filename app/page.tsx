@@ -1,258 +1,402 @@
 'use client';
 
-import { ArrowUpRight, Github, Mail, Sparkles } from 'lucide-react';
+import { ArrowUpRight, Github, Globe, Moon, Sun } from 'lucide-react';
 import { motion } from 'framer-motion';
-import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-/* ── Data ── */
+/* ── Translation Dictionary ── */
 
-const profile = {
-  name: 'Diego León',
-  title: 'Full Stack Developer',
-  location: 'Colombia',
-  bio: 'I build practical software with a strong focus on full-stack development, AI-assisted workflows, and useful user experiences.',
-  github: 'https://github.com/Alter-09',
-  profileRepo: 'https://github.com/Alter-09/alter-09',
-  resume: '/resume.txt',
-  currentRole: 'Software Developer at MySQL',
-  languages: 'Native Spanish • C1 English'
+type Lang = 'es' | 'en';
+type Theme = 'light' | 'dark';
+
+const t = {
+  es: {
+    nav: { home: 'Inicio', about: 'Sobre mí', projects: 'Proyectos', skills: 'Habilidades', experience: 'Experiencia', contact: 'Contacto' },
+    header: { subtitle: 'DESARROLLADOR' },
+    home: {
+      headline: 'Construyo software práctico.',
+      subline: 'Desarrollo full-stack, flujos asistidos por IA, y aprendizaje continuo — todo en un solo lugar.',
+      cta: 'Ver Proyectos ↗',
+      metricRole: 'Rol', metricFocus: 'Enfoque', metricBase: 'Base', metricLangs: 'Idiomas',
+      terminalCommand: '$ whoami', terminalBioCommand: '$ cat bio.txt', terminalTitle: 'Terminal',
+      bio: 'Construyo software práctico con un fuerte enfoque en desarrollo full-stack, flujos de trabajo asistidos por IA y experiencias de usuario útiles.',
+      languages: 'Español nativo • Inglés C1', motorsport: 'Entusiasta del automovilismo',
+      quickLinks: 'Accesos Rápidos', githubProfile: 'Perfil GitHub', downloadResume: 'Descargar CV', profileRepo: 'Repositorio Perfil',
+      kitLabel: 'HERRAMIENTAS PERSONALES', kitQuote: 'Construye con intención. Lanza con oficio. Un proyecto a la vez.',
+      navLabel: 'NAVEGACIÓN',
+    },
+    about: {
+      label: 'SOBRE MÍ', heading: 'Lo que estoy construyendo',
+      highlights: [
+        { title: 'Enfoque actual', text: 'Construyendo software práctico con una mezcla de desarrollo full-stack y flujos de trabajo asistidos por IA.' },
+        { title: 'Comunicación', text: 'Fluido en español y seguro en inglés, con un enfoque colaborativo y curioso.' },
+        { title: 'Intereses', text: 'Automovilismo, tecnología, y convertir ideas en herramientas digitales útiles.' },
+        { title: 'Metodología', text: 'Implementación reflexiva, UX limpio, y un fuerte énfasis en aprender haciendo.' },
+      ],
+    },
+    projects: { label: 'TRABAJOS SELECCIONADOS', heading: 'Proyectos', subline: 'Proyectos prácticos que combinan utilidad real con implementación limpia.', liveDemo: 'Demo en vivo', github: 'GitHub' },
+    skills: { label: 'CAPACIDADES', heading: 'Habilidades & Stack' },
+    experience: { label: 'CARRERA', heading: 'Experiencia' },
+    contact: { tag: 'HABLEMOS', heading: '¿Listo para construir algo memorable?', body: 'Estoy abierto a colaboraciones significativas, desafíos técnicos y oportunidades para construir productos útiles con un fuerte sentido del oficio.', github: 'GitHub', profileRepo: 'Ver Repositorio Perfil' },
+    footer: { built: 'Construido con Next.js, Tailwind CSS y Framer Motion.' },
+  },
+  en: {
+    nav: { home: 'Home', about: 'About', projects: 'Projects', skills: 'Skills', experience: 'Experience', contact: 'Contact' },
+    header: { subtitle: 'DEVELOPER' },
+    home: {
+      headline: 'I build practical software.',
+      subline: 'Full-stack development, AI-assisted workflows, and continuous learning — all in one place.',
+      cta: 'View Projects ↗',
+      metricRole: 'Role', metricFocus: 'Focus', metricBase: 'Base', metricLangs: 'Languages',
+      terminalCommand: '$ whoami', terminalBioCommand: '$ cat bio.txt', terminalTitle: 'Terminal',
+      bio: 'I build practical software with a strong focus on full-stack development, AI-assisted workflows, and useful user experiences.',
+      languages: 'Native Spanish • C1 English', motorsport: 'Motorsport enthusiast',
+      quickLinks: 'Quick Links', githubProfile: 'GitHub Profile', downloadResume: 'Download Resume', profileRepo: 'Profile Repo',
+      kitLabel: 'PERSONAL KIT', kitQuote: 'Build with intent. Ship with craft. One project at a time.',
+      navLabel: 'NAVIGATION',
+    },
+    about: {
+      label: 'ABOUT ME', heading: "What I'm building",
+      highlights: [
+        { title: 'Current focus', text: 'Building practical software with a mix of full-stack development and AI-assisted workflows.' },
+        { title: 'Communication', text: 'Fluent in Spanish and confident in English, with a collaborative and curious approach.' },
+        { title: 'Interests', text: 'Motorsport, technology, and turning ideas into useful digital tools.' },
+        { title: 'Approach', text: 'Thoughtful implementation, clean UX, and a strong emphasis on learning by doing.' },
+      ],
+    },
+    projects: { label: 'SELECTED WORK', heading: 'Projects', subline: 'Hands-on projects that combine real-world usefulness with clean implementation.', liveDemo: 'Live Demo', github: 'GitHub' },
+    skills: { label: 'CAPABILITIES', heading: 'Skills & Stack' },
+    experience: { label: 'CAREER', heading: 'Experience' },
+    contact: { tag: "LET'S BUILD", heading: 'Ready to shape something memorable?', body: "I'm open to meaningful collaborations, technical challenges, and opportunities to build useful products with a strong sense of craft.", github: 'GitHub', profileRepo: 'View Profile Repo' },
+    footer: { built: 'Built with Next.js, Tailwind CSS, and Framer Motion.' },
+  },
 };
+
+/* ── Static Data ── */
+
+const profile = { name: 'Diego León', github: 'https://github.com/Alter-09', profileRepo: 'https://github.com/Alter-09/alter-09', resume: '/resume.txt' };
 
 const projects = [
   {
-    title: 'Campusbuild',
-    summary: 'A custom web app for managing projects over time, with calendar support and practical workflow tools.',
-    tags: ['JavaScript', 'Productivity', 'Web App'],
-    demo: 'https://github.com/Alter-09/Campusbuild',
-    github: 'https://github.com/Alter-09/Campusbuild'
+    title: 'NeoMetro',
+    summary: {
+      es: 'Portal de reportes en tiempo real para Metrolínea con clasificación por IA, mapas Leaflet interactivos y automatización n8n Cloud.',
+      en: 'Real-time incident reporting portal for Metrolínea with AI severity classification, interactive Leaflet maps, and n8n Cloud automation.',
+    },
+    tags: ['JavaScript', 'n8n', 'Leaflet', 'AI'],
+    demo: 'https://hackaton-eta-three.vercel.app',
+    github: 'https://github.com/Alter-09/HackatonNeoMetro',
   },
   {
-    title: 'SmartCity-Fix',
-    summary: 'A civic-minded project focused on building smart city solutions and useful improvements for everyday life.',
-    tags: ['HTML', 'Python', 'Innovation'],
-    demo: 'https://github.com/Alter-09/SmartCity-Fix',
-    github: 'https://github.com/Alter-09/SmartCity-Fix'
+    title: 'RapidExpres',
+    summary: {
+      es: 'Plataforma de gestión logística y seguimiento de envíos exprés con optimización de rutas y panel de control en tiempo real.',
+      en: 'Logistics management and express parcel tracking platform with route optimization and real-time control dashboard.',
+    },
+    tags: ['JavaScript', 'Logistics', 'Web App'],
+    demo: 'https://github.com/Alter-09',
+    github: 'https://github.com/Alter-09',
   },
   {
-    title: 'Task_manager_pro',
-    summary: 'A Python-based task management project designed to keep work organized and moving forward.',
-    tags: ['Python', 'Workflow', 'Planning'],
-    demo: 'https://github.com/Alter-09/Task_manager_pro',
-    github: 'https://github.com/Alter-09/Task_manager_pro'
-  }
+    title: 'SISTEMA_AEROPUERTO',
+    summary: {
+      es: 'Sistema empresarial Java con arquitectura en capas para administrar vuelos, pilotos, pasajeros y aeropuertos con persistencia JSON.',
+      en: 'Layered Java enterprise system for managing flights, pilots, passengers, and airports with clean OOP and JSON persistence.',
+    },
+    tags: ['Java', 'OOP', 'Maven'],
+    demo: 'https://github.com/Alter-09/SISTEMA_AEROPUERTO',
+    github: 'https://github.com/Alter-09/SISTEMA_AEROPUERTO',
+  },
+  {
+    title: 'AMB-exam',
+    summary: {
+      es: 'Motor de evaluaciones y exámenes técnicos para verificación de competencias con seguimiento de resultados y análisis de desempeño.',
+      en: 'Technical assessment and exam engine for competency verification with result tracking and performance analytics.',
+    },
+    tags: ['JavaScript', 'Assessment', 'Education'],
+    demo: 'https://github.com/Alter-09',
+    github: 'https://github.com/Alter-09',
+  },
+  {
+    title: 'MetaNav',
+    summary: {
+      es: 'Organizador de tareas y enfoque diario con diseño neubrutalista, módulos de kanban, reflexión y seguimiento de hábitos.',
+      en: 'Daily task and focus organizer with neubrutalist design, kanban modules, daily reflection, and habit tracking.',
+    },
+    tags: ['CSS', 'JavaScript', 'Productivity'],
+    demo: 'https://meta-nav.vercel.app',
+    github: 'https://github.com/Alter-09/MetaNav',
+  },
 ];
 
 const skills = [
   { category: 'Full Stack', items: ['JavaScript', 'HTML', 'CSS', 'Python', 'MySQL', 'Docker'] },
   { category: 'Frontend', items: ['React', 'Next.js', 'Tailwind', 'UI Development'] },
   { category: 'Backend', items: ['REST APIs', 'Database Design', 'Automation', 'Server Logic'] },
-  { category: 'Workflow', items: ['Git', 'VS Code', 'AI-assisted Development', 'Continuous Learning'] }
+  { category: 'Workflow', items: ['Git', 'VS Code', 'AI-assisted Dev', 'Continuous Learning'] },
 ];
 
 const experience = [
   {
-    role: 'Software Developer',
+    role: { es: 'Desarrollador de Software', en: 'Software Developer' },
     company: 'MySQL',
-    date: 'Current',
-    impact: 'Working on software development while continuing to expand my technical skills in practical, production-focused engineering.'
+    date: { es: 'Actual', en: 'Current' },
+    impact: {
+      es: 'Trabajando en desarrollo de software mientras continúo expandiendo mis habilidades técnicas en ingeniería práctica orientada a producción.',
+      en: 'Working on software development while continuing to expand my technical skills in practical, production-focused engineering.',
+    },
   },
   {
-    role: 'Independent Builder',
-    company: 'Personal Projects',
-    date: '2024 — Present',
-    impact: 'Built hands-on web and productivity projects that combine real-world usefulness with clean implementation.'
-  }
+    role: { es: 'Constructor Independiente', en: 'Independent Builder' },
+    company: { es: 'Proyectos Personales', en: 'Personal Projects' },
+    date: { es: '2024 — Presente', en: '2024 — Present' },
+    impact: {
+      es: 'Construí proyectos web y de productividad prácticos que combinan utilidad real con implementación limpia.',
+      en: 'Built hands-on web and productivity projects that combine real-world usefulness with clean implementation.',
+    },
+  },
 ];
 
-const highlights = [
-  {
-    title: 'Current focus',
-    text: 'Building practical software with a mix of full-stack development and AI-assisted workflows.'
-  },
-  {
-    title: 'Communication',
-    text: 'Fluent in Spanish and confident in English, with a collaborative and curious approach.'
-  },
-  {
-    title: 'Interests',
-    text: 'Motorsport, technology, and turning ideas into useful digital tools.'
-  },
-  {
-    title: 'Approach',
-    text: 'Thoughtful implementation, clean UX, and a strong emphasis on learning by doing.'
-  }
-];
-
-const navItems = [
-  { id: 'home', label: 'Home', num: '01' },
-  { id: 'about', label: 'About', num: '02' },
-  { id: 'projects', label: 'Projects', num: '03' },
-  { id: 'skills', label: 'Skills', num: '04' },
-  { id: 'experience', label: 'Experience', num: '05' },
-  { id: 'contact', label: 'Contact', num: '06' }
-];
+const navIds = ['home', 'about', 'projects', 'skills', 'experience', 'contact'];
 
 /* ── Page ── */
 
 export default function HomePage() {
+  const [lang, setLang] = useState<Lang>('es');
+  const [theme, setTheme] = useState<Theme>('dark');
   const [activeSection, setActiveSection] = useState('home');
+  const tx = t[lang];
+  const isDark = theme === 'dark';
 
-  const handleNavClick = (id: string) => {
-    setActiveSection(id);
+  /* Hydrate lang & theme from localStorage / system preference */
+  useEffect(() => {
+    const storedLang = localStorage.getItem('portfolio-lang') as Lang | null;
+    if (storedLang === 'es' || storedLang === 'en') setLang(storedLang);
+
+    const storedTheme = localStorage.getItem('portfolio-theme') as Theme | null;
+    if (storedTheme === 'light' || storedTheme === 'dark') {
+      setTheme(storedTheme);
+    } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+      setTheme('light');
+    }
+  }, []);
+
+  const switchLang = (l: Lang) => {
+    setLang(l);
+    localStorage.setItem('portfolio-lang', l);
   };
 
+  const toggleTheme = () => {
+    const nextTheme: Theme = theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    localStorage.setItem('portfolio-theme', nextTheme);
+  };
+
+  /* IntersectionObserver Scrollspy */
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    navIds.forEach((id) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveSection(id); },
+        { rootMargin: '-40% 0px -55% 0px', threshold: 0 }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  const navItems = [
+    { id: 'home', label: tx.nav.home, num: '01' },
+    { id: 'about', label: tx.nav.about, num: '02' },
+    { id: 'projects', label: tx.nav.projects, num: '03' },
+    { id: 'skills', label: tx.nav.skills, num: '04' },
+    { id: 'experience', label: tx.nav.experience, num: '05' },
+    { id: 'contact', label: tx.nav.contact, num: '06' },
+  ];
+
+  /* Dynamic Theme Classes */
+  const cardBg = isDark ? 'bg-[#1c1b18] border-[#383530] text-cream' : 'bg-cream border-ink text-ink';
+  const headingColor = isDark ? 'text-cream' : 'text-ink';
+  const subtitleColor = isDark ? 'text-[#a8a29e]' : 'text-[#625d56]';
+  const tagBg = isDark ? 'bg-[#282723] text-cream border-[#383530]' : 'bg-paper text-ink border-ink';
+  const canvasBg = isDark ? 'bg-[#121211] dot-grid-dark' : 'bg-paper dot-grid';
+
   return (
-    <div className="min-h-screen bg-ink">
+    <div className={`min-h-screen ${isDark ? 'dark bg-ink' : 'bg-ink'}`}>
       {/* ── TOPBAR ── */}
       <header className="sticky top-0 z-50 flex min-h-[76px] items-center justify-between border-b-4 border-ink bg-accent-red px-4 py-3.5 text-cream sm:px-8">
-        <Link href="#home" onClick={() => handleNavClick('home')} className="flex items-center gap-3 text-inherit no-underline">
+        <a href="#home" className="flex items-center gap-3 text-inherit no-underline">
           <span className="grid h-[42px] w-[42px] -skew-x-[9deg] -rotate-[5deg] place-items-center bg-ink font-display text-[25px] text-accent-yellow">
             D
           </span>
           <span className="leading-[0.85]">
             <strong className="block font-display text-[25px] tracking-[1px]">DIEGO LEÓN</strong>
-            <small className="mt-[5px] block text-[11px] font-bold tracking-[3px]">DEVELOPER</small>
+            <small className="mt-[5px] block text-[11px] font-bold tracking-[3px]">{tx.header.subtitle}</small>
           </span>
-        </Link>
-        <div className="flex items-center gap-5">
-          <span className="hidden text-[14px] font-bold uppercase tracking-[1px] sm:block">
-            {new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()}
-          </span>
-          <div className="grid h-10 w-10 rotate-[4deg] place-items-center border-[3px] border-ink bg-accent-yellow font-extrabold text-ink">
+        </a>
+        <div className="flex items-center gap-3">
+          {/* Theme Toggle */}
+          <button
+            id="theme-toggle"
+            onClick={toggleTheme}
+            aria-label="Toggle dark/light mode"
+            className="neo-shadow-hover grid h-10 w-10 place-items-center border-[3px] border-ink bg-ink text-accent-yellow shadow-neo-sm transition-colors hover:bg-[#282723]"
+          >
+            {isDark ? <Sun size={18} /> : <Moon size={18} className="text-accent-yellow" />}
+          </button>
+
+          {/* Language Toggle */}
+          <div className="flex items-center overflow-hidden border-[3px] border-ink bg-ink shadow-neo-sm">
+            <button
+              id="lang-es"
+              onClick={() => switchLang('es')}
+              className={`px-3 py-1.5 text-[12px] font-extrabold tracking-[1px] transition-colors ${lang === 'es' ? 'bg-accent-yellow text-ink' : 'bg-ink text-[#b8b3ab] hover:text-cream'}`}
+            >
+              ES
+            </button>
+            <div className="h-6 w-[2px] bg-[#302d29]" />
+            <button
+              id="lang-en"
+              onClick={() => switchLang('en')}
+              className={`px-3 py-1.5 text-[12px] font-extrabold tracking-[1px] transition-colors ${lang === 'en' ? 'bg-accent-yellow text-ink' : 'bg-ink text-[#b8b3ab] hover:text-cream'}`}
+            >
+              EN
+            </button>
+          </div>
+
+          <div className="hidden items-center gap-2 sm:flex">
+            <Globe size={14} className="opacity-60" />
+            <span className="text-[12px] font-bold uppercase tracking-[1px]">
+              {new Date().toLocaleDateString(lang === 'es' ? 'es-CO' : 'en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()}
+            </span>
+          </div>
+
+          <div className="grid h-10 w-10 rotate-[4deg] place-items-center border-[3px] border-ink bg-accent-yellow text-[13px] font-extrabold text-ink">
             DL
           </div>
         </div>
       </header>
 
-      {/* ── WORKSPACE (Sidebar + Main) ── */}
-      <div className="grid min-h-[calc(100vh-116px)] grid-cols-1 md:grid-cols-[220px_minmax(0,1fr)]">
+      {/* ── WORKSPACE (Sticky Sidebar + Main) ── */}
+      <div className="flex min-h-[calc(100vh-76px)]">
 
-        {/* ── SIDEBAR ── */}
-        <aside className="flex flex-col border-b-[3px] border-accent-yellow bg-ink px-5 py-3 text-cream md:border-b-0 md:py-[38px]">
-          <div className="hidden text-[12px] font-extrabold tracking-[2px] text-accent-yellow md:block">
-            NAVIGATION
+        {/* ── STICKY SIDEBAR (Desktop) ── */}
+        <aside className="hidden w-[220px] shrink-0 flex-col border-r-[3px] border-[#302d29] bg-ink px-5 py-[38px] md:sticky md:top-[76px] md:flex md:h-[calc(100vh-76px)] md:overflow-y-auto">
+          <div className="text-[12px] font-extrabold tracking-[2px] text-accent-yellow">
+            {tx.home.navLabel}
           </div>
-          <nav className="mt-2.5 flex gap-1 overflow-x-auto md:mt-[26px] md:grid md:gap-2 md:overflow-x-visible" id="main-nav">
+          <nav className="mt-[26px] grid gap-2" id="main-nav">
             {navItems.map((item) => (
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                onClick={() => handleNavClick(item.id)}
-                className={`flex-shrink-0 whitespace-nowrap border-l-4 border-transparent px-2 py-[11px] font-bold text-[#b8b3ab] no-underline transition-all duration-200 hover:translate-x-1 hover:border-l-accent-yellow hover:bg-accent-red hover:text-cream md:whitespace-normal ${
-                  activeSection === item.id
-                    ? 'translate-x-1 border-l-accent-yellow bg-accent-red !text-cream'
-                    : ''
+                className={`border-l-4 border-transparent px-2 py-[11px] font-bold text-[#b8b3ab] no-underline transition-all duration-200 hover:translate-x-1 hover:border-l-accent-yellow hover:bg-accent-red hover:text-cream ${
+                  activeSection === item.id ? 'translate-x-1 border-l-accent-yellow bg-accent-red !text-cream' : ''
                 }`}
               >
-                <span className="mr-2 inline-block w-[30px] text-[13px] text-[#6e6a64]">
-                  {activeSection === item.id ? <span className="text-accent-yellow">{item.num}</span> : item.num}
+                <span className="mr-2 inline-block w-[30px] text-[13px]">
+                  <span className={activeSection === item.id ? 'text-accent-yellow' : 'text-[#6e6a64]'}>{item.num}</span>
                 </span>
                 {item.label}
               </a>
             ))}
           </nav>
-          <div className="mt-auto hidden -rotate-[2deg] border-t-2 border-[#4b4843] px-2.5 pt-4 md:block">
-            <span className="text-[12px] font-extrabold tracking-[2px] text-accent-yellow">PERSONAL KIT</span>
-            <p className="mt-2.5 text-[#b8b3ab]" style={{ lineHeight: '1.1' }}>Build with intent. Ship with craft. One project at a time.</p>
+          <div className="mt-auto -rotate-[2deg] border-t-2 border-[#4b4843] px-2.5 pt-4">
+            <span className="text-[12px] font-extrabold tracking-[2px] text-accent-yellow">{tx.home.kitLabel}</span>
+            <p className="mt-2.5 text-[14px] text-[#b8b3ab]" style={{ lineHeight: '1.1' }}>{tx.home.kitQuote}</p>
           </div>
+        </aside>
+
+        {/* Mobile Bottom Navigation */}
+        <aside className="fixed bottom-0 left-0 right-0 z-40 flex items-center gap-1 overflow-x-auto border-t-[3px] border-accent-yellow bg-ink px-3 py-2 md:hidden">
+          {navItems.map((item) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              className={`flex-shrink-0 whitespace-nowrap border-b-2 border-transparent px-2 py-1.5 text-[12px] font-bold text-[#b8b3ab] no-underline transition-all ${
+                activeSection === item.id ? 'border-b-accent-yellow text-cream' : ''
+              }`}
+            >
+              {item.num} {item.label}
+            </a>
+          ))}
         </aside>
 
         {/* ── MAIN CONTENT ── */}
         <main
           id="app"
-          className="overflow-hidden bg-paper px-6 py-11 dot-grid sm:px-[clamp(24px,5vw,72px)]"
+          className={`min-w-0 flex-1 overflow-hidden px-6 py-11 pb-20 sm:px-[clamp(24px,5vw,72px)] md:pb-11 transition-colors duration-200 ${canvasBg}`}
           style={{ animation: 'reveal .4s ease both' }}
         >
           {/* ─ HOME ─ */}
           <section id="home" className="mb-16 scroll-mt-24">
             <div className="mb-8 flex flex-col items-start justify-between gap-5 md:flex-row md:items-end">
               <div>
-                <motion.div
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.4 }}
-                >
-                  <h1 className="mb-1.5 font-display text-[clamp(35px,5vw,66px)] uppercase leading-[.95] tracking-[-1px]">
-                    I build practical<br />software.
+                <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
+                  <h1 className={`mb-1.5 font-display text-[clamp(35px,5vw,66px)] uppercase leading-[.95] tracking-[-1px] ${headingColor}`}>
+                    {tx.home.headline}
                   </h1>
-                  <p className="max-w-[620px] text-[20px] text-[#625d56]">
-                    Full-stack development, AI-assisted workflows, and continuous learning — all in one place.
+                  <p className={`max-w-[620px] text-[20px] ${subtitleColor}`}>
+                    {tx.home.subline}
                   </p>
                 </motion.div>
               </div>
               <a href="#projects" className="neo-shadow-hover border-[3px] border-ink bg-accent-red px-4 py-[11px] font-extrabold uppercase tracking-[1px] text-cream no-underline shadow-neo-sm">
-                View Projects ↗
+                {tx.home.cta}
               </a>
             </div>
 
-            {/* Metric cards */}
+            {/* Metric Cards */}
             <div className="mb-8 grid grid-cols-2 gap-3.5 xl:grid-cols-4">
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.05 }}
-                className="relative min-h-[130px] border-[3px] border-ink bg-cream p-[18px] shadow-neo"
-              >
-                <span className="text-[14px] font-extrabold uppercase">Role</span>
-                <span className="mt-[11px] block font-display text-[32px] leading-[.9] text-accent-red xl:text-[43px]">Dev</span>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.1 }}
-                className="relative min-h-[130px] translate-y-2 -rotate-1 border-[3px] border-ink bg-accent-red p-[18px] text-cream shadow-neo"
-              >
-                <span className="text-[14px] font-extrabold uppercase">Focus</span>
-                <span className="mt-[11px] block font-display text-[32px] leading-[.9] xl:text-[43px]">Full Stack</span>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-                className="relative min-h-[130px] rotate-1 border-[3px] border-ink bg-accent-yellow p-[18px] shadow-neo"
-              >
-                <span className="text-[14px] font-extrabold uppercase">Base</span>
-                <span className="mt-[11px] block font-display text-[32px] leading-[.9] xl:text-[43px]">CO 🇨🇴</span>
-              </motion.div>
-              <motion.div
-                initial={{ opacity: 0, y: 16 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.4, delay: 0.2 }}
-                className="relative min-h-[130px] translate-y-[5px] border-[3px] border-ink bg-accent-teal p-[18px] text-cream shadow-neo"
-              >
-                <span className="text-[14px] font-extrabold uppercase">Languages</span>
-                <span className="mt-[11px] block font-display text-[32px] leading-[.9] xl:text-[43px]">ES / EN</span>
-              </motion.div>
+              {[
+                { label: tx.home.metricRole, value: 'Dev', cls: isDark ? 'bg-[#1c1b18] border-[#383530] text-cream' : 'bg-cream border-ink text-ink', valCls: 'text-accent-red' },
+                { label: tx.home.metricFocus, value: 'Full Stack', cls: 'translate-y-2 -rotate-1 bg-accent-red text-cream border-ink', valCls: '' },
+                { label: tx.home.metricBase, value: 'CO 🇨🇴', cls: 'rotate-1 bg-accent-yellow text-ink border-ink', valCls: '' },
+                { label: tx.home.metricLangs, value: 'ES / EN', cls: 'translate-y-[5px] bg-accent-teal text-cream border-ink', valCls: '' },
+              ].map((m, i) => (
+                <motion.div
+                  key={m.label}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.4, delay: i * 0.06 }}
+                  className={`relative min-h-[130px] border-[3px] p-[18px] shadow-neo ${m.cls}`}
+                >
+                  <span className="text-[14px] font-extrabold uppercase">{m.label}</span>
+                  <span className={`mt-[11px] block font-display text-[32px] leading-[.9] xl:text-[43px] ${m.valCls}`}>{m.value}</span>
+                </motion.div>
+              ))}
             </div>
 
-            {/* Profile panel + Tip panel */}
+            {/* Terminal + Quick Links */}
             <div className="grid gap-7 lg:grid-cols-[minmax(0,1.35fr)_minmax(280px,.65fr)]">
-              <div className="border-[3px] border-ink bg-cream p-6 shadow-neo">
-                <div className="mb-3.5 flex items-center justify-between gap-3 border-b-[3px] border-ink pb-[13px]">
-                  <h2 className="m-0 font-display text-[27px] uppercase leading-none">Terminal</h2>
+              <div className={`border-[3px] p-6 shadow-neo ${cardBg}`}>
+                <div className="mb-3.5 flex items-center border-b-[3px] border-inherit pb-[13px]">
+                  <h2 className="m-0 font-display text-[27px] uppercase leading-none">{tx.home.terminalTitle}</h2>
                 </div>
                 <div className="font-mono text-[15px] leading-8">
-                  <div className="font-bold text-accent-red">$ whoami</div>
+                  <div className="font-bold text-accent-red">{tx.home.terminalCommand}</div>
                   <div>{profile.name}</div>
-                  <div>{profile.title}</div>
-                  <div>{profile.languages}</div>
-                  <div>Motorsport enthusiast</div>
-                  <div className="mt-3 font-bold text-accent-red">$ cat bio.txt</div>
-                  <div className="text-[#625d56]">{profile.bio}</div>
+                  <div>{lang === 'es' ? 'Desarrollador Full Stack' : 'Full Stack Developer'}</div>
+                  <div>{tx.home.languages}</div>
+                  <div>{tx.home.motorsport}</div>
+                  <div className="mt-3 font-bold text-accent-red">{tx.home.terminalBioCommand}</div>
+                  <div className={subtitleColor}>{tx.home.bio}</div>
                 </div>
               </div>
               <div className="rotate-[2deg] border-[3px] border-ink bg-ink p-6 text-cream shadow-neo">
-                <h2 className="m-0 mb-2 font-display text-[27px] uppercase leading-none text-accent-yellow">Quick Links</h2>
+                <h2 className="m-0 mb-2 font-display text-[27px] uppercase leading-none text-accent-yellow">{tx.home.quickLinks}</h2>
                 <div className="mt-4 grid gap-2.5">
                   <a href={profile.github} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-red px-3 py-2.5 font-bold text-cream no-underline shadow-neo-sm">
-                    <Github size={16} /> GitHub Profile
+                    <Github size={16} /> {tx.home.githubProfile}
                   </a>
                   <a href={profile.resume} download="Diego-Leon-Resume.txt" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-yellow px-3 py-2.5 font-bold text-ink no-underline shadow-neo-sm">
-                    <Mail size={16} /> Download Resume
+                    <Globe size={16} /> {tx.home.downloadResume}
                   </a>
                   <a href={profile.profileRepo} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-teal px-3 py-2.5 font-bold text-cream no-underline shadow-neo-sm">
-                    <ArrowUpRight size={16} /> Profile Repo
+                    <ArrowUpRight size={16} /> {tx.home.profileRepo}
                   </a>
                 </div>
               </div>
@@ -261,26 +405,24 @@ export default function HomePage() {
 
           {/* ─ ABOUT ─ */}
           <section id="about" className="mb-16 scroll-mt-24">
-            <div className="mb-8 flex items-end justify-between gap-5">
-              <div>
-                <span className="text-[12px] font-extrabold tracking-[2px] text-accent-teal">ABOUT ME</span>
-                <h1 className="mb-1.5 font-display text-[clamp(35px,5vw,50px)] uppercase leading-[.95] tracking-[-1px]">
-                  What I&apos;m building
-                </h1>
-              </div>
+            <div className="mb-8">
+              <span className="text-[12px] font-extrabold tracking-[2px] text-accent-teal">{tx.about.label}</span>
+              <h1 className={`mb-1.5 font-display text-[clamp(35px,5vw,50px)] uppercase leading-[.95] tracking-[-1px] ${headingColor}`}>
+                {tx.about.heading}
+              </h1>
             </div>
             <div className="grid gap-5 md:grid-cols-2">
-              {highlights.map((item, index) => (
+              {tx.about.highlights.map((item, index) => (
                 <motion.div
                   key={item.title}
                   initial={{ opacity: 0, y: 12 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.35, delay: index * 0.06 }}
-                  className="border-[3px] border-ink bg-cream p-6 shadow-neo"
+                  className={`border-[3px] p-6 shadow-neo ${cardBg}`}
                 >
                   <h3 className="font-display text-[20px] uppercase">{item.title}</h3>
-                  <p className="mt-2 text-[#625d56]" style={{ lineHeight: '1.25' }}>{item.text}</p>
+                  <p className={`mt-2 ${subtitleColor}`} style={{ lineHeight: '1.25' }}>{item.text}</p>
                 </motion.div>
               ))}
             </div>
@@ -288,16 +430,14 @@ export default function HomePage() {
 
           {/* ─ PROJECTS ─ */}
           <section id="projects" className="mb-16 scroll-mt-24">
-            <div className="mb-8 flex items-end justify-between gap-5">
-              <div>
-                <span className="text-[12px] font-extrabold tracking-[2px] text-accent-teal">SELECTED WORK</span>
-                <h1 className="mb-1.5 font-display text-[clamp(35px,5vw,50px)] uppercase leading-[.95] tracking-[-1px]">
-                  Projects
-                </h1>
-                <p className="max-w-[620px] text-[20px] text-[#625d56]">
-                  Hands-on projects that combine real-world usefulness with clean implementation.
-                </p>
-              </div>
+            <div className="mb-8">
+              <span className="text-[12px] font-extrabold tracking-[2px] text-accent-teal">{tx.projects.label}</span>
+              <h1 className={`mb-1.5 font-display text-[clamp(35px,5vw,50px)] uppercase leading-[.95] tracking-[-1px] ${headingColor}`}>
+                {tx.projects.heading}
+              </h1>
+              <p className={`max-w-[620px] text-[20px] ${subtitleColor}`}>
+                {tx.projects.subline}
+              </p>
             </div>
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
               {projects.map((project, index) => (
@@ -305,28 +445,30 @@ export default function HomePage() {
                   key={project.title}
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.4, delay: index * 0.08 }}
-                  className="neo-shadow-hover group border-[3px] border-ink bg-cream p-6 shadow-neo"
+                  viewport={{ once: true, amount: 0.2 }}
+                  transition={{ duration: 0.4, delay: index * 0.07 }}
+                  className={`neo-shadow-hover group flex flex-col border-[3px] p-6 shadow-neo ${cardBg}`}
                 >
                   <div className="flex items-center justify-between">
                     <h3 className="font-display text-[20px] uppercase">{project.title}</h3>
                     <ArrowUpRight className="text-muted transition-colors group-hover:text-accent-red" size={18} />
                   </div>
-                  <p className="mt-3 text-[15px] font-bold leading-[1.25] text-[#625d56]">{project.summary}</p>
+                  <p className={`mt-3 flex-1 text-[15px] font-bold leading-[1.25] ${subtitleColor}`}>
+                    {project.summary[lang]}
+                  </p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     {project.tags.map((tag) => (
-                      <span key={tag} className="border-2 border-ink bg-paper px-3 py-1 text-[12px] font-extrabold uppercase tracking-[2px]">
+                      <span key={tag} className={`border-2 px-3 py-1 text-[12px] font-extrabold uppercase tracking-[2px] ${tagBg}`}>
                         {tag}
                       </span>
                     ))}
                   </div>
                   <div className="mt-5 flex gap-3">
                     <a href={project.demo} target="_blank" rel="noreferrer" className="neo-shadow-hover border-2 border-ink bg-accent-red px-3 py-1.5 text-[13px] font-bold text-cream no-underline shadow-neo-sm">
-                      Live Demo
+                      {tx.projects.liveDemo}
                     </a>
-                    <a href={project.github} target="_blank" rel="noreferrer" className="neo-shadow-hover border-2 border-ink bg-paper px-3 py-1.5 text-[13px] font-bold text-ink no-underline shadow-neo-sm">
-                      GitHub
+                    <a href={project.github} target="_blank" rel="noreferrer" className={`neo-shadow-hover border-2 px-3 py-1.5 text-[13px] font-bold no-underline shadow-neo-sm ${tagBg}`}>
+                      {tx.projects.github}
                     </a>
                   </div>
                 </motion.article>
@@ -337,9 +479,9 @@ export default function HomePage() {
           {/* ─ SKILLS ─ */}
           <section id="skills" className="mb-16 scroll-mt-24">
             <div className="mb-8">
-              <span className="text-[12px] font-extrabold tracking-[2px] text-accent-teal">CAPABILITIES</span>
-              <h1 className="mb-1.5 font-display text-[clamp(35px,5vw,50px)] uppercase leading-[.95] tracking-[-1px]">
-                Skills &amp; Stack
+              <span className="text-[12px] font-extrabold tracking-[2px] text-accent-teal">{tx.skills.label}</span>
+              <h1 className={`mb-1.5 font-display text-[clamp(35px,5vw,50px)] uppercase leading-[.95] tracking-[-1px] ${headingColor}`}>
+                {tx.skills.heading}
               </h1>
             </div>
             <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
@@ -350,12 +492,12 @@ export default function HomePage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.3 }}
                   transition={{ duration: 0.35, delay: index * 0.06 }}
-                  className="border-[3px] border-ink bg-cream p-6 shadow-neo"
+                  className={`border-[3px] p-6 shadow-neo ${cardBg}`}
                 >
                   <h3 className="mb-4 font-display text-[20px] uppercase">{skill.category}</h3>
                   <div className="flex flex-wrap gap-2">
                     {skill.items.map((item) => (
-                      <span key={item} className="border-2 border-ink bg-paper px-3 py-1 text-[14px] font-bold">
+                      <span key={item} className={`border-2 px-3 py-1 text-[14px] font-bold ${tagBg}`}>
                         {item}
                       </span>
                     ))}
@@ -368,52 +510,57 @@ export default function HomePage() {
           {/* ─ EXPERIENCE ─ */}
           <section id="experience" className="mb-16 scroll-mt-24">
             <div className="mb-8">
-              <span className="text-[12px] font-extrabold tracking-[2px] text-accent-teal">CAREER</span>
-              <h1 className="mb-1.5 font-display text-[clamp(35px,5vw,50px)] uppercase leading-[.95] tracking-[-1px]">
-                Experience
+              <span className="text-[12px] font-extrabold tracking-[2px] text-accent-teal">{tx.experience.label}</span>
+              <h1 className={`mb-1.5 font-display text-[clamp(35px,5vw,50px)] uppercase leading-[.95] tracking-[-1px] ${headingColor}`}>
+                {tx.experience.heading}
               </h1>
             </div>
             <div className="space-y-6">
-              {experience.map((item, index) => (
-                <motion.div
-                  key={item.role}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.3 }}
-                  transition={{ duration: 0.35, delay: index * 0.06 }}
-                  className="border-[3px] border-ink bg-cream p-6 shadow-neo"
-                >
-                  <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
-                    <div>
-                      <h3 className="font-display text-[20px] uppercase">{item.role}</h3>
-                      <p className="text-[14px] font-bold text-accent-red">{item.company}</p>
+              {experience.map((item, index) => {
+                const role = typeof item.role === 'object' ? item.role[lang] : item.role;
+                const company = typeof item.company === 'object' ? (item.company as Record<Lang, string>)[lang] : item.company;
+                const date = typeof item.date === 'object' ? item.date[lang] : item.date;
+                return (
+                  <motion.div
+                    key={String(role)}
+                    initial={{ opacity: 0, y: 12 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.3 }}
+                    transition={{ duration: 0.35, delay: index * 0.06 }}
+                    className={`border-[3px] p-6 shadow-neo ${cardBg}`}
+                  >
+                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                      <div>
+                        <h3 className="font-display text-[20px] uppercase">{role}</h3>
+                        <p className="text-[14px] font-bold text-accent-red">{company}</p>
+                      </div>
+                      <span className="border-2 border-ink bg-accent-yellow px-3 py-1 text-[13px] font-extrabold uppercase text-ink">
+                        {date}
+                      </span>
                     </div>
-                    <span className="border-2 border-ink bg-accent-yellow px-3 py-1 text-[13px] font-extrabold uppercase">
-                      {item.date}
-                    </span>
-                  </div>
-                  <p className="mt-4 max-w-2xl text-[15px] leading-[1.3] text-[#625d56]">{item.impact}</p>
-                </motion.div>
-              ))}
+                    <p className={`mt-4 max-w-2xl text-[15px] leading-[1.3] ${subtitleColor}`}>{item.impact[lang]}</p>
+                  </motion.div>
+                );
+              })}
             </div>
           </section>
 
           {/* ─ CONTACT ─ */}
           <section id="contact" className="mb-8 scroll-mt-24">
             <div className="-rotate-1 border-[3px] border-ink bg-accent-red p-6 text-cream shadow-neo md:p-8">
-              <h2 className="mb-2 font-display text-[27px] uppercase text-accent-yellow">Let&apos;s Build</h2>
+              <h2 className="mb-2 font-display text-[27px] uppercase text-accent-yellow">{tx.contact.tag}</h2>
               <h1 className="mb-1.5 font-display text-[clamp(28px,4vw,50px)] uppercase leading-[.95] tracking-[-1px]">
-                Ready to shape something memorable?
+                {tx.contact.heading}
               </h1>
               <p className="mt-4 max-w-2xl text-[16px] leading-[1.25]" style={{ color: '#d8d2c6' }}>
-                I&apos;m open to meaningful collaborations, technical challenges, and opportunities to build useful products with a strong sense of craft.
+                {tx.contact.body}
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <a href={profile.github} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-[3px] border-ink bg-cream px-4 py-2.5 font-extrabold text-ink no-underline shadow-neo-sm">
-                  <Github size={16} /> GitHub
+                  <Github size={16} /> {tx.contact.github}
                 </a>
                 <a href={profile.profileRepo} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-[3px] border-ink bg-accent-yellow px-4 py-2.5 font-extrabold text-ink no-underline shadow-neo-sm">
-                  <Mail size={16} /> View Profile Repo
+                  <ArrowUpRight size={16} /> {tx.contact.profileRepo}
                 </a>
               </div>
             </div>
@@ -422,9 +569,9 @@ export default function HomePage() {
       </div>
 
       {/* ── FOOTER ── */}
-      <footer className="flex flex-col justify-between gap-4 border-t-[3px] border-ink bg-accent-yellow px-4 py-[15px] text-[13px] font-extrabold uppercase sm:flex-row sm:px-8">
+      <footer className="flex flex-col justify-between gap-4 border-t-[3px] border-ink bg-accent-yellow px-4 py-[15px] text-[13px] font-extrabold uppercase text-ink sm:flex-row sm:px-8">
         <span>DIEGO LEÓN / {new Date().getFullYear()}</span>
-        <span>Built with Next.js, Tailwind CSS, and Framer Motion.</span>
+        <span>{tx.footer.built}</span>
       </footer>
     </div>
   );
