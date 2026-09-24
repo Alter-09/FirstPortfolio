@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpRight, Github, Globe, Mail, Moon, Phone, Sparkles, Sun } from 'lucide-react';
+import { ArrowUpRight, Github, Globe, Mail, Moon, Phone, Sun } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
@@ -11,19 +11,20 @@ type Theme = 'light' | 'dark';
 
 const t = {
   es: {
-    nav: { home: 'Inicio', about: 'Sobre mí', projects: 'Proyectos', skills: 'Habilidades', experience: 'Trayectoria', testimonials: 'Referencias', contact: 'Contacto' },
+    nav: { home: 'Inicio', about: 'Sobre mí', projects: 'Proyectos', skills: 'Habilidades', experience: 'Trayectoria', referencesContact: 'Referencias & Contacto' },
     header: { subtitle: 'FULLSTACK DEVELOPER · IA' },
     home: {
       headline: 'Construyo soluciones digitales con impacto real.',
       subline: 'Desarrollo full-stack, automatización con n8n e inteligencia artificial aplicada — resolviendo problemas concretos con criterio y disciplina.',
       cta: 'Ver 9 Proyectos ↗',
       metricRole: 'Rol', metricFocus: 'Enfoque', metricBase: 'Ubicación', metricLangs: 'Idiomas',
-      terminalCommand: '$ whoami', terminalBioCommand: '$ cat perfil.txt', terminalTitle: 'Terminal Profesional',
-      bio: 'Desarrollador Fullstack Junior en formación en Campuslands y etapa formativa con Globant. Combina desarrollo web, bases de datos (PostgreSQL/MySQL), automatizaciones con IA y nivel de inglés C1 para construir software sólido y escalable.',
-      languages: 'Español nativo • Inglés C1 profesional', motorsport: 'Floridablanca, Santander, Colombia',
-      quickLinks: 'Accesos Rápidos', githubProfile: 'Perfil GitHub', downloadResume: 'Descargar CV', profileRepo: 'Repositorio Perfil',
-      kitLabel: 'PROPUESTA DE VALOR', kitQuote: '(Hard Skills + Soft Skills) × Problema = Valor Real',
+      terminalCommand: '$ whoami', terminalTitle: 'Terminal Profesional',
+      terminalStack: '$ stack', terminalStackVal: 'Full-Stack · n8n · IA',
+      terminalLocation: '$ location', terminalLocationVal: 'Floridablanca, CO 🇨🇴',
+      terminalAvailability: '$ availability', terminalAvailabilityVal: 'Disponible para trabajar',
+      downloadResume: 'Descargar CV',
       navLabel: 'NAVEGACIÓN',
+      quickActions: 'Acciones Rápidas',
     },
     about: {
       label: 'FILOSOFÍA & PROPÓSITO', heading: 'Misión y Visión',
@@ -42,19 +43,20 @@ const t = {
     footer: { built: 'Construido con Next.js, Tailwind CSS y Framer Motion.' },
   },
   en: {
-    nav: { home: 'Home', about: 'About', projects: 'Projects', skills: 'Skills', experience: 'Career', testimonials: 'References', contact: 'Contact' },
+    nav: { home: 'Home', about: 'About', projects: 'Projects', skills: 'Skills', experience: 'Career', referencesContact: 'References & Contact' },
     header: { subtitle: 'FULLSTACK DEVELOPER · AI' },
     home: {
       headline: 'I build digital solutions that deliver real impact.',
       subline: 'Full-stack engineering, n8n workflow automation, and applied AI — solving concrete challenges with craft, precision, and discipline.',
       cta: 'View 9 Projects ↗',
       metricRole: 'Role', metricFocus: 'Focus', metricBase: 'Location', metricLangs: 'Languages',
-      terminalCommand: '$ whoami', terminalBioCommand: '$ cat profile.txt', terminalTitle: 'Professional Terminal',
-      bio: 'Junior Fullstack Developer trained at Campuslands with a formative stage at Globant. Blends web development, databases (PostgreSQL/MySQL), AI automation pipelines, and C1 English fluency to deliver solid, scalable software.',
-      languages: 'Native Spanish • Professional C1 English', motorsport: 'Floridablanca, Santander, Colombia',
-      quickLinks: 'Quick Links', githubProfile: 'GitHub Profile', downloadResume: 'Download Resume', profileRepo: 'Profile Repo',
-      kitLabel: 'VALUE PROPOSITION', kitQuote: '(Hard Skills + Soft Skills) × Problem = Real Value',
+      terminalCommand: '$ whoami', terminalTitle: 'Professional Terminal',
+      terminalStack: '$ stack', terminalStackVal: 'Full-Stack · n8n · AI',
+      terminalLocation: '$ location', terminalLocationVal: 'Floridablanca, CO 🇨🇴',
+      terminalAvailability: '$ availability', terminalAvailabilityVal: 'Open to work',
+      downloadResume: 'Download Resume',
       navLabel: 'NAVIGATION',
+      quickActions: 'Quick Actions',
     },
     about: {
       label: 'PHILOSOPHY & PURPOSE', heading: 'Mission & Vision',
@@ -241,7 +243,7 @@ const testimonials = [
   },
 ];
 
-const navIds = ['home', 'about', 'projects', 'skills', 'experience', 'testimonials', 'contact'];
+const navIds = ['home', 'about', 'projects', 'skills', 'experience', 'references-contact'];
 
 /* ── Page ── */
 
@@ -298,8 +300,7 @@ export default function HomePage() {
     { id: 'projects', label: tx.nav.projects, num: '03' },
     { id: 'skills', label: tx.nav.skills, num: '04' },
     { id: 'experience', label: tx.nav.experience, num: '05' },
-    { id: 'testimonials', label: tx.nav.testimonials, num: '06' },
-    { id: 'contact', label: tx.nav.contact, num: '07' },
+    { id: 'references-contact', label: tx.nav.referencesContact, num: '06' },
   ];
 
   /* Dynamic Theme Classes */
@@ -358,10 +359,6 @@ export default function HomePage() {
               {new Date().toLocaleDateString(lang === 'es' ? 'es-CO' : 'en-US', { month: 'short', day: 'numeric', year: 'numeric' }).toUpperCase()}
             </span>
           </div>
-
-          <div className="grid h-10 w-10 rotate-[4deg] place-items-center border-[3px] border-ink bg-accent-yellow text-[13px] font-extrabold text-ink">
-            DL
-          </div>
         </div>
       </header>
 
@@ -389,10 +386,7 @@ export default function HomePage() {
               </a>
             ))}
           </nav>
-          <div className="mt-auto -rotate-[2deg] border-t-2 border-[#4b4843] px-2.5 pt-4">
-            <span className="text-[12px] font-extrabold tracking-[2px] text-accent-yellow">{tx.home.kitLabel}</span>
-            <p className="mt-2.5 text-[14px] text-[#b8b3ab]" style={{ lineHeight: '1.1' }}>{tx.home.kitQuote}</p>
-          </div>
+
         </aside>
 
         {/* Mobile Bottom Navigation */}
@@ -461,29 +455,32 @@ export default function HomePage() {
                 <div className="mb-3.5 flex items-center border-b-[3px] border-inherit pb-[13px]">
                   <h2 className="m-0 font-display text-[27px] uppercase leading-none">{tx.home.terminalTitle}</h2>
                 </div>
-                <div className="font-mono text-[15px] leading-8">
-                  <div className="font-bold text-accent-red">{tx.home.terminalCommand}</div>
-                  <div>{profile.name}</div>
-                  <div>{lang === 'es' ? 'Desarrollador Fullstack Junior · Campuslands / Globant' : 'Junior Fullstack Developer · Campuslands / Globant'}</div>
-                  <div>{tx.home.languages}</div>
-                  <div>{tx.home.motorsport}</div>
-                  <div className="mt-3 font-bold text-accent-red">{tx.home.terminalBioCommand}</div>
-                  <div className={subtitleColor}>{tx.home.bio}</div>
+                <div className="font-mono text-[15px] leading-[2]">
+                  <div>
+                    <span className="font-bold text-accent-red">{tx.home.terminalCommand}</span>
+                    <span className="ml-2">{profile.name}</span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-accent-red">{tx.home.terminalStack}</span>
+                    <span className="ml-2">{tx.home.terminalStackVal}</span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-accent-red">{tx.home.terminalLocation}</span>
+                    <span className="ml-2">{tx.home.terminalLocationVal}</span>
+                  </div>
+                  <div>
+                    <span className="font-bold text-accent-red">{tx.home.terminalAvailability}</span>
+                    <span className="ml-2 font-bold text-accent-teal">{tx.home.terminalAvailabilityVal}</span>
+                  </div>
                 </div>
               </div>
               <div className="rotate-[2deg] border-[3px] border-ink bg-ink p-6 text-cream shadow-neo">
-                <h2 className="m-0 mb-2 font-display text-[27px] uppercase leading-none text-accent-yellow">{tx.home.quickLinks}</h2>
+                <h2 className="m-0 mb-2 font-display text-[27px] uppercase leading-none text-accent-yellow">{tx.home.quickActions}</h2>
                 <div className="mt-4 grid gap-2.5">
-                  <a href={profile.github} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-red px-3 py-2.5 font-bold text-cream no-underline shadow-neo-sm">
-                    <Github size={16} /> {tx.home.githubProfile}
-                  </a>
                   <a href={profile.resume} download="Juan-Diego-Leon-Resume.txt" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-yellow px-3 py-2.5 font-bold text-ink no-underline shadow-neo-sm">
-                    <Globe size={16} /> {tx.home.downloadResume}
+                    <ArrowUpRight size={16} /> {tx.home.downloadResume}
                   </a>
-                  <a href={profile.profileRepo} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-teal px-3 py-2.5 font-bold text-cream no-underline shadow-neo-sm">
-                    <ArrowUpRight size={16} /> {tx.home.profileRepo}
-                  </a>
-                  <a href={`mailto:${profile.email}`} className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-cream px-3 py-2.5 font-bold text-ink no-underline shadow-neo-sm">
+                  <a href={`mailto:${profile.email}`} className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-teal px-3 py-2.5 font-bold text-cream no-underline shadow-neo-sm">
                     <Mail size={16} /> {profile.email}
                   </a>
                 </div>
@@ -633,15 +630,15 @@ export default function HomePage() {
             </div>
           </section>
 
-          {/* ─ TESTIMONIALS / REFERENCES ─ */}
-          <section id="testimonials" className="mb-16 scroll-mt-24">
+          {/* ─ REFERENCES & CONTACT ─ */}
+          <section id="references-contact" className="mb-8 scroll-mt-24">
             <div className="mb-8">
               <span className="text-[12px] font-extrabold tracking-[2px] text-accent-teal">{tx.testimonials.label}</span>
-              <h1 className={`mb-1.5 font-display text-[clamp(35px,5vw,50px)] uppercase leading-[.95] tracking-[-1px] ${headingColor}`}>
+              <h2 className={`mb-1.5 font-display text-[clamp(35px,5vw,50px)] uppercase leading-[.95] tracking-[-1px] ${headingColor}`}>
                 {tx.testimonials.heading}
-              </h1>
+              </h2>
             </div>
-            <div className="grid gap-6 md:grid-cols-2">
+            <div className="mb-12 grid gap-6 md:grid-cols-2">
               {testimonials.map((tItem, index) => (
                 <motion.div
                   key={tItem.author}
@@ -652,7 +649,7 @@ export default function HomePage() {
                   className={`relative border-[3px] p-6 shadow-neo ${cardBg}`}
                 >
                   <p className="text-[16px] italic leading-[1.4] text-accent-yellow">
-                    "{lang === 'es' ? tItem.quote : tItem.quoteEn}"
+                    &ldquo;{lang === 'es' ? tItem.quote : tItem.quoteEn}&rdquo;
                   </p>
                   <div className="mt-4 border-t-2 border-inherit pt-3">
                     <strong className="block font-display text-[17px] uppercase">{tItem.author}</strong>
@@ -661,15 +658,13 @@ export default function HomePage() {
                 </motion.div>
               ))}
             </div>
-          </section>
 
-          {/* ─ CONTACT ─ */}
-          <section id="contact" className="mb-8 scroll-mt-24">
+            {/* Contact CTA */}
             <div className="-rotate-1 border-[3px] border-ink bg-accent-red p-6 text-cream shadow-neo md:p-8">
-              <h2 className="mb-2 font-display text-[27px] uppercase text-accent-yellow">{tx.contact.tag}</h2>
-              <h1 className="mb-1.5 font-display text-[clamp(28px,4vw,50px)] uppercase leading-[.95] tracking-[-1px]">
+              <h3 className="mb-2 font-display text-[27px] uppercase text-accent-yellow">{tx.contact.tag}</h3>
+              <h2 className="mb-1.5 font-display text-[clamp(28px,4vw,50px)] uppercase leading-[.95] tracking-[-1px]">
                 {tx.contact.heading}
-              </h1>
+              </h2>
               <p className="mt-4 max-w-2xl text-[16px] leading-[1.25]" style={{ color: '#d8d2c6' }}>
                 {tx.contact.body}
               </p>
