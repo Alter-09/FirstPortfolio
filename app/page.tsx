@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpRight, Github, Globe, Moon, Sun } from 'lucide-react';
+import { ArrowUpRight, Github, Globe, Mail, Moon, Phone, Sparkles, Sun } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
@@ -11,81 +11,112 @@ type Theme = 'light' | 'dark';
 
 const t = {
   es: {
-    nav: { home: 'Inicio', about: 'Sobre mí', projects: 'Proyectos', skills: 'Habilidades', experience: 'Experiencia', contact: 'Contacto' },
-    header: { subtitle: 'DESARROLLADOR' },
+    nav: { home: 'Inicio', about: 'Sobre mí', projects: 'Proyectos', skills: 'Habilidades', experience: 'Trayectoria', testimonials: 'Referencias', contact: 'Contacto' },
+    header: { subtitle: 'FULLSTACK DEVELOPER · IA' },
     home: {
-      headline: 'Construyo software práctico.',
-      subline: 'Desarrollo full-stack, flujos asistidos por IA, y aprendizaje continuo — todo en un solo lugar.',
-      cta: 'Ver Proyectos ↗',
-      metricRole: 'Rol', metricFocus: 'Enfoque', metricBase: 'Base', metricLangs: 'Idiomas',
-      terminalCommand: '$ whoami', terminalBioCommand: '$ cat bio.txt', terminalTitle: 'Terminal',
-      bio: 'Construyo software práctico con un fuerte enfoque en desarrollo full-stack, flujos de trabajo asistidos por IA y experiencias de usuario útiles.',
-      languages: 'Español nativo • Inglés C1', motorsport: 'Entusiasta del automovilismo',
+      headline: 'Construyo soluciones digitales con impacto real.',
+      subline: 'Desarrollo full-stack, automatización con n8n e inteligencia artificial aplicada — resolviendo problemas concretos con criterio y disciplina.',
+      cta: 'Ver 9 Proyectos ↗',
+      metricRole: 'Rol', metricFocus: 'Enfoque', metricBase: 'Ubicación', metricLangs: 'Idiomas',
+      terminalCommand: '$ whoami', terminalBioCommand: '$ cat perfil.txt', terminalTitle: 'Terminal Profesional',
+      bio: 'Desarrollador Fullstack Junior en formación en Campuslands y etapa formativa con Globant. Combina desarrollo web, bases de datos (PostgreSQL/MySQL), automatizaciones con IA y nivel de inglés C1 para construir software sólido y escalable.',
+      languages: 'Español nativo • Inglés C1 profesional', motorsport: 'Floridablanca, Santander, Colombia',
       quickLinks: 'Accesos Rápidos', githubProfile: 'Perfil GitHub', downloadResume: 'Descargar CV', profileRepo: 'Repositorio Perfil',
-      kitLabel: 'HERRAMIENTAS PERSONALES', kitQuote: 'Construye con intención. Lanza con oficio. Un proyecto a la vez.',
+      kitLabel: 'PROPUESTA DE VALOR', kitQuote: '(Hard Skills + Soft Skills) × Problema = Valor Real',
       navLabel: 'NAVEGACIÓN',
     },
     about: {
-      label: 'SOBRE MÍ', heading: 'Lo que estoy construyendo',
+      label: 'FILOSOFÍA & PROPÓSITO', heading: 'Misión y Visión',
       highlights: [
-        { title: 'Enfoque actual', text: 'Construyendo software práctico con una mezcla de desarrollo full-stack y flujos de trabajo asistidos por IA.' },
-        { title: 'Comunicación', text: 'Fluido en español y seguro en inglés, con un enfoque colaborativo y curioso.' },
-        { title: 'Intereses', text: 'Automovilismo, tecnología, y convertir ideas en herramientas digitales útiles.' },
-        { title: 'Metodología', text: 'Implementación reflexiva, UX limpio, y un fuerte énfasis en aprender haciendo.' },
+        { title: 'Misión', text: 'Construir soluciones digitales que transformen procesos a través de tecnología, combinando desarrollo web, automatización e IA orientadas a resultados desde el primer día.' },
+        { title: 'Visión', text: 'Consolidarme como líder técnico en proyectos con impacto social, dominando arquitecturas escalables, sistemas sostenibles e IA aplicada en los próximos 5 años.' },
+        { title: 'Propuesta de Valor', text: 'Combino base técnica fullstack sólida con comunicación C1 en inglés, proactividad y metodologías ágiles Scrum para ejecutar sin necesidad de microgestión.' },
+        { title: 'Metodología', text: 'Aprendizaje rápido con propósito, diseño limpio, UX funcional y entregas con altos estándares de calidad técnica.' },
       ],
     },
-    projects: { label: 'TRABAJOS SELECCIONADOS', heading: 'Proyectos', subline: 'Proyectos prácticos que combinan utilidad real con implementación limpia.', liveDemo: 'Demo en vivo', github: 'GitHub' },
-    skills: { label: 'CAPACIDADES', heading: 'Habilidades & Stack' },
-    experience: { label: 'CARRERA', heading: 'Experiencia' },
-    contact: { tag: 'HABLEMOS', heading: '¿Listo para construir algo memorable?', body: 'Estoy abierto a colaboraciones significativas, desafíos técnicos y oportunidades para construir productos útiles con un fuerte sentido del oficio.', github: 'GitHub', profileRepo: 'Ver Repositorio Perfil' },
+    projects: { label: 'PORTFOLIO DE PROYECTOS', heading: 'Proyectos Destacados (9)', subline: 'Proyectos de producción, hackathons, automatizaciones de IA y aplicaciones empresariales.', liveDemo: 'Demo en vivo', github: 'GitHub' },
+    skills: { label: 'STACK & CAPACIDADES', heading: 'Habilidades Técnicas y Metodologías' },
+    experience: { label: 'TRAYECTORIA', heading: 'Experiencia & Formación Académica' },
+    testimonials: { label: 'REPUTACIÓN PERCIBIDA', heading: 'Lo que dicen de mi trabajo' },
+    contact: { tag: 'HABLEMOS', heading: '¿Listo para construir algo de alto valor?', body: 'Abierto a oportunidades como Fullstack Junior Developer, desafíos de automatización con IA y colaboración en equipos ágiles.', github: 'GitHub', profileRepo: 'Ver Repositorio Perfil' },
     footer: { built: 'Construido con Next.js, Tailwind CSS y Framer Motion.' },
   },
   en: {
-    nav: { home: 'Home', about: 'About', projects: 'Projects', skills: 'Skills', experience: 'Experience', contact: 'Contact' },
-    header: { subtitle: 'DEVELOPER' },
+    nav: { home: 'Home', about: 'About', projects: 'Projects', skills: 'Skills', experience: 'Career', testimonials: 'References', contact: 'Contact' },
+    header: { subtitle: 'FULLSTACK DEVELOPER · AI' },
     home: {
-      headline: 'I build practical software.',
-      subline: 'Full-stack development, AI-assisted workflows, and continuous learning — all in one place.',
-      cta: 'View Projects ↗',
-      metricRole: 'Role', metricFocus: 'Focus', metricBase: 'Base', metricLangs: 'Languages',
-      terminalCommand: '$ whoami', terminalBioCommand: '$ cat bio.txt', terminalTitle: 'Terminal',
-      bio: 'I build practical software with a strong focus on full-stack development, AI-assisted workflows, and useful user experiences.',
-      languages: 'Native Spanish • C1 English', motorsport: 'Motorsport enthusiast',
+      headline: 'I build digital solutions that deliver real impact.',
+      subline: 'Full-stack engineering, n8n workflow automation, and applied AI — solving concrete challenges with craft, precision, and discipline.',
+      cta: 'View 9 Projects ↗',
+      metricRole: 'Role', metricFocus: 'Focus', metricBase: 'Location', metricLangs: 'Languages',
+      terminalCommand: '$ whoami', terminalBioCommand: '$ cat profile.txt', terminalTitle: 'Professional Terminal',
+      bio: 'Junior Fullstack Developer trained at Campuslands with a formative stage at Globant. Blends web development, databases (PostgreSQL/MySQL), AI automation pipelines, and C1 English fluency to deliver solid, scalable software.',
+      languages: 'Native Spanish • Professional C1 English', motorsport: 'Floridablanca, Santander, Colombia',
       quickLinks: 'Quick Links', githubProfile: 'GitHub Profile', downloadResume: 'Download Resume', profileRepo: 'Profile Repo',
-      kitLabel: 'PERSONAL KIT', kitQuote: 'Build with intent. Ship with craft. One project at a time.',
+      kitLabel: 'VALUE PROPOSITION', kitQuote: '(Hard Skills + Soft Skills) × Problem = Real Value',
       navLabel: 'NAVIGATION',
     },
     about: {
-      label: 'ABOUT ME', heading: "What I'm building",
+      label: 'PHILOSOPHY & PURPOSE', heading: 'Mission & Vision',
       highlights: [
-        { title: 'Current focus', text: 'Building practical software with a mix of full-stack development and AI-assisted workflows.' },
-        { title: 'Communication', text: 'Fluent in Spanish and confident in English, with a collaborative and curious approach.' },
-        { title: 'Interests', text: 'Motorsport, technology, and turning ideas into useful digital tools.' },
-        { title: 'Approach', text: 'Thoughtful implementation, clean UX, and a strong emphasis on learning by doing.' },
+        { title: 'Mission', text: 'Build digital solutions that transform operations through technology, combining web engineering, automation, and AI focused on immediate value delivery.' },
+        { title: 'Vision', text: 'Establish myself as a technical leader on high-impact social and enterprise projects, mastering scalable architectures, resilient systems, and applied AI over the next 5 years.' },
+        { title: 'Value Proposition', text: 'I blend strong technical engineering with C1 English communication, proactive initiative, and Scrum agility to execute independently without micromanagement.' },
+        { title: 'Approach', text: 'Purposeful fast learning, clean interface architecture, functional UX, and dependable software shipped to high standards.' },
       ],
     },
-    projects: { label: 'SELECTED WORK', heading: 'Projects', subline: 'Hands-on projects that combine real-world usefulness with clean implementation.', liveDemo: 'Live Demo', github: 'GitHub' },
-    skills: { label: 'CAPABILITIES', heading: 'Skills & Stack' },
-    experience: { label: 'CAREER', heading: 'Experience' },
-    contact: { tag: "LET'S BUILD", heading: 'Ready to shape something memorable?', body: "I'm open to meaningful collaborations, technical challenges, and opportunities to build useful products with a strong sense of craft.", github: 'GitHub', profileRepo: 'View Profile Repo' },
+    projects: { label: 'PROJECT PORTFOLIO', heading: 'Featured Projects (9)', subline: 'Production systems, hackathons, AI automation pipelines, and enterprise tools.', liveDemo: 'Live Demo', github: 'GitHub' },
+    skills: { label: 'STACK & CAPABILITIES', heading: 'Technical Skills & Methodologies' },
+    experience: { label: 'CAREER', heading: 'Experience & Academic Training' },
+    testimonials: { label: 'PEER REPUTATION', heading: 'What colleagues say about my work' },
+    contact: { tag: "LET'S BUILD", heading: 'Ready to build high-value software?', body: "Open to Junior Fullstack Developer positions, AI automation challenges, and collaborative high-performance engineering teams.", github: 'GitHub', profileRepo: 'View Profile Repo' },
     footer: { built: 'Built with Next.js, Tailwind CSS, and Framer Motion.' },
   },
 };
 
 /* ── Static Data ── */
 
-const profile = { name: 'Diego León', github: 'https://github.com/Alter-09', profileRepo: 'https://github.com/Alter-09/alter-09', resume: '/resume.txt' };
+const profile = {
+  name: 'Juan Diego León Prada',
+  shortName: 'Diego León',
+  location: 'Floridablanca, Santander, Colombia',
+  email: 'diegoleonp09@gmail.com',
+  phone: '+57 313 4451805',
+  github: 'https://github.com/Alter-09',
+  profileRepo: 'https://github.com/Alter-09/alter-09',
+  resume: '/resume.txt',
+};
 
 const projects = [
   {
     title: 'NeoMetro',
     summary: {
-      es: 'Portal de reportes en tiempo real para Metrolínea con clasificación por IA, mapas Leaflet interactivos y automatización n8n Cloud.',
+      es: 'Portal de reportes en tiempo real para Metrolínea con clasificación de incidentes por IA, mapas interactivos con Leaflet y automatización n8n Cloud.',
       en: 'Real-time incident reporting portal for Metrolínea with AI severity classification, interactive Leaflet maps, and n8n Cloud automation.',
     },
     tags: ['JavaScript', 'n8n', 'Leaflet', 'AI'],
     demo: 'https://hackaton-eta-three.vercel.app',
     github: 'https://github.com/Alter-09/HackatonNeoMetro',
+  },
+  {
+    title: 'MundoFutbol Bot',
+    summary: {
+      es: 'Sistema automatizado de gestión de suscripciones para streaming deportivo en Telegram con generación de llaves de licencia y flujos PostgreSQL en n8n.',
+      en: 'Automated sports streaming subscription system for Telegram bot with license key generation and PostgreSQL n8n workflows.',
+    },
+    tags: ['n8n', 'PostgreSQL', 'JavaScript', 'Telegram API'],
+    demo: 'https://github.com/Alter-09',
+    github: 'https://github.com/Alter-09',
+  },
+  {
+    title: 'SmartCity-Fix',
+    summary: {
+      es: 'Sistema inteligente de recepción y priorización autónoma de incidentes urbanos mediante análisis de evidencia visual y textual con IA.',
+      en: 'Intelligent urban incident management and autonomous routing system analyzing visual and text evidence with AI.',
+    },
+    tags: ['IA Aplicada', 'Python', 'Automatización', 'Analytics'],
+    demo: 'https://github.com/Alter-09/SmartCity-Fix',
+    github: 'https://github.com/Alter-09/SmartCity-Fix',
   },
   {
     title: 'RapidExpres',
@@ -127,37 +158,90 @@ const projects = [
     demo: 'https://meta-nav.vercel.app',
     github: 'https://github.com/Alter-09/MetaNav',
   },
+  {
+    title: 'MusicStream',
+    summary: {
+      es: 'Simulación de plataforma de streaming musical interactiva con catálogo de compra de álbumes y sencillos.',
+      en: 'Interactive music streaming platform simulation featuring album catalog and single track purchase workflows.',
+    },
+    tags: ['HTML5', 'CSS', 'JavaScript'],
+    demo: 'https://github.com/Alter-09',
+    github: 'https://github.com/Alter-09',
+  },
+  {
+    title: 'EduSprint',
+    summary: {
+      es: 'Planeación y arquitectura ágil de aplicación colaborativa para optimización de flujos Scrum y trabajo en equipo.',
+      en: 'Agile planning and collaborative architecture blueprint for Scrum workflows and sprint management.',
+    },
+    tags: ['Scrum', 'Agile', 'Planning'],
+    demo: 'https://github.com/Alter-09',
+    github: 'https://github.com/Alter-09',
+  },
 ];
 
 const skills = [
-  { category: 'Full Stack', items: ['JavaScript', 'HTML', 'CSS', 'Python', 'MySQL', 'Docker'] },
-  { category: 'Frontend', items: ['React', 'Next.js', 'Tailwind', 'UI Development'] },
-  { category: 'Backend', items: ['REST APIs', 'Database Design', 'Automation', 'Server Logic'] },
-  { category: 'Workflow', items: ['Git', 'VS Code', 'AI-assisted Dev', 'Continuous Learning'] },
+  { category: 'Full Stack & Lenguajes', items: ['Python', 'JavaScript', 'HTML5', 'CSS', 'TypeScript', 'MySQL', 'PostgreSQL'] },
+  { category: 'Automatización & IA', items: ['N8N', 'Procesos con IA', 'Vector Spaces', 'Embeddings', 'Flujos de IA'] },
+  { category: 'Herramientas & Infra', items: ['Docker', 'Docker Desktop', 'DBeaver', 'Git', 'GitHub', 'VS Code'] },
+  { category: 'Metodologías & Blandas', items: ['Scrum / Agile', 'Inglés C1', 'Proactividad', 'Trabajo en Equipo', 'Aprendizaje Rápido'] },
 ];
 
 const experience = [
   {
     role: { es: 'Desarrollador de Software', en: 'Software Developer' },
-    company: 'MySQL',
+    company: 'MySQL / Engineering Projects',
     date: { es: 'Actual', en: 'Current' },
     impact: {
-      es: 'Trabajando en desarrollo de software mientras continúo expandiendo mis habilidades técnicas en ingeniería práctica orientada a producción.',
-      en: 'Working on software development while continuing to expand my technical skills in practical, production-focused engineering.',
+      es: 'Desarrollo de software y soluciones técnicas prácticas, combinando bases de datos relacionales, backend y flujos asistidos por IA.',
+      en: 'Developing software and practical engineering solutions, combining relational databases, backend services, and AI-assisted workflows.',
     },
   },
   {
-    role: { es: 'Constructor Independiente', en: 'Independent Builder' },
-    company: { es: 'Proyectos Personales', en: 'Personal Projects' },
-    date: { es: '2024 — Presente', en: '2024 — Present' },
+    role: { es: 'Desarrollador en Etapa Formativa', en: 'Developer (Formative Stage)' },
+    company: 'Globant',
+    date: { es: '2026 — Presente', en: '2026 — Present' },
     impact: {
-      es: 'Construí proyectos web y de productividad prácticos que combinan utilidad real con implementación limpia.',
-      en: 'Built hands-on web and productivity projects that combine real-world usefulness with clean implementation.',
+      es: 'Vinculado en etapa formativa profundizando en estándares profesionales de la industria, arquitecturas modernas y proyección hacia ingeniería de sistemas.',
+      en: 'Enrolled in professional formative training deepening modern industry standards, scalable architectures, and systems engineering.',
+    },
+  },
+  {
+    role: { es: 'Técnico en Desarrollo de Software con IA', en: 'Software & AI Developer Graduate' },
+    company: 'Campuslands',
+    date: { es: '2025 — 2026', en: '2025 — 2026' },
+    impact: {
+      es: 'Formación intensiva basada en proyectos reales de desarrollo web, automatización con n8n, bases de datos PostgreSQL/MySQL y trabajo colaborativo con Scrum.',
+      en: 'Intensive real-project based training covering web development, n8n automation, PostgreSQL/MySQL databases, and agile Scrum collaboration.',
+    },
+  },
+  {
+    role: { es: 'Técnico Académico en Inglés C1', en: 'Academic English C1' },
+    company: 'Praxis English Institute',
+    date: { es: '2025', en: '2025' },
+    impact: {
+      es: 'Certificación de competencia lingüística C1 para documentación técnica internacional y comunicación fluida en equipos multiculturales.',
+      en: 'C1 language certification enabling technical documentation mastery and fluent cross-border team communication.',
     },
   },
 ];
 
-const navIds = ['home', 'about', 'projects', 'skills', 'experience', 'contact'];
+const testimonials = [
+  {
+    quote: 'Su compromiso y puntualidad elevan el nivel de cualquier equipo. Siempre entrega con calidad. Es alguien en quien se puede confiar a ciegas.',
+    quoteEn: 'His commitment and punctuality elevate the level of any team. He always delivers quality. Someone you can blindly trust.',
+    author: 'Sebastián Ayala',
+    role: 'Compañero de proyecto académico · Campuslands',
+  },
+  {
+    quote: 'Tiene una gran capacidad para entender el problema rápido y proponer soluciones concretas. Es sólido.',
+    quoteEn: 'He has great ability to grasp problems quickly and propose concrete solutions. He is solid.',
+    author: 'Santiago Sarmiento',
+    role: 'Compañero de Hackathon y MundoFutbol Bot',
+  },
+];
+
+const navIds = ['home', 'about', 'projects', 'skills', 'experience', 'testimonials', 'contact'];
 
 /* ── Page ── */
 
@@ -214,7 +298,8 @@ export default function HomePage() {
     { id: 'projects', label: tx.nav.projects, num: '03' },
     { id: 'skills', label: tx.nav.skills, num: '04' },
     { id: 'experience', label: tx.nav.experience, num: '05' },
-    { id: 'contact', label: tx.nav.contact, num: '06' },
+    { id: 'testimonials', label: tx.nav.testimonials, num: '06' },
+    { id: 'contact', label: tx.nav.contact, num: '07' },
   ];
 
   /* Dynamic Theme Classes */
@@ -233,7 +318,7 @@ export default function HomePage() {
             D
           </span>
           <span className="leading-[0.85]">
-            <strong className="block font-display text-[25px] tracking-[1px]">DIEGO LEÓN</strong>
+            <strong className="block font-display text-[23px] tracking-[1px] sm:text-[25px]">JUAN DIEGO LEÓN</strong>
             <small className="mt-[5px] block text-[11px] font-bold tracking-[3px]">{tx.header.subtitle}</small>
           </span>
         </a>
@@ -336,10 +421,10 @@ export default function HomePage() {
             <div className="mb-8 flex flex-col items-start justify-between gap-5 md:flex-row md:items-end">
               <div>
                 <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.4 }}>
-                  <h1 className={`mb-1.5 font-display text-[clamp(35px,5vw,66px)] uppercase leading-[.95] tracking-[-1px] ${headingColor}`}>
+                  <h1 className={`mb-1.5 font-display text-[clamp(32px,4.5vw,62px)] uppercase leading-[.95] tracking-[-1px] ${headingColor}`}>
                     {tx.home.headline}
                   </h1>
-                  <p className={`max-w-[620px] text-[20px] ${subtitleColor}`}>
+                  <p className={`max-w-[680px] text-[20px] ${subtitleColor}`}>
                     {tx.home.subline}
                   </p>
                 </motion.div>
@@ -352,10 +437,10 @@ export default function HomePage() {
             {/* Metric Cards */}
             <div className="mb-8 grid grid-cols-2 gap-3.5 xl:grid-cols-4">
               {[
-                { label: tx.home.metricRole, value: 'Dev', cls: isDark ? 'bg-[#1c1b18] border-[#383530] text-cream' : 'bg-cream border-ink text-ink', valCls: 'text-accent-red' },
-                { label: tx.home.metricFocus, value: 'Full Stack', cls: 'translate-y-2 -rotate-1 bg-accent-red text-cream border-ink', valCls: '' },
+                { label: tx.home.metricRole, value: 'Fullstack', cls: isDark ? 'bg-[#1c1b18] border-[#383530] text-cream' : 'bg-cream border-ink text-ink', valCls: 'text-accent-red' },
+                { label: tx.home.metricFocus, value: 'Web & IA', cls: 'translate-y-2 -rotate-1 bg-accent-red text-cream border-ink', valCls: '' },
                 { label: tx.home.metricBase, value: 'CO 🇨🇴', cls: 'rotate-1 bg-accent-yellow text-ink border-ink', valCls: '' },
-                { label: tx.home.metricLangs, value: 'ES / EN', cls: 'translate-y-[5px] bg-accent-teal text-cream border-ink', valCls: '' },
+                { label: tx.home.metricLangs, value: 'ES / EN C1', cls: 'translate-y-[5px] bg-accent-teal text-cream border-ink', valCls: '' },
               ].map((m, i) => (
                 <motion.div
                   key={m.label}
@@ -365,7 +450,7 @@ export default function HomePage() {
                   className={`relative min-h-[130px] border-[3px] p-[18px] shadow-neo ${m.cls}`}
                 >
                   <span className="text-[14px] font-extrabold uppercase">{m.label}</span>
-                  <span className={`mt-[11px] block font-display text-[32px] leading-[.9] xl:text-[43px] ${m.valCls}`}>{m.value}</span>
+                  <span className={`mt-[11px] block font-display text-[30px] leading-[.9] xl:text-[38px] ${m.valCls}`}>{m.value}</span>
                 </motion.div>
               ))}
             </div>
@@ -379,7 +464,7 @@ export default function HomePage() {
                 <div className="font-mono text-[15px] leading-8">
                   <div className="font-bold text-accent-red">{tx.home.terminalCommand}</div>
                   <div>{profile.name}</div>
-                  <div>{lang === 'es' ? 'Desarrollador Full Stack' : 'Full Stack Developer'}</div>
+                  <div>{lang === 'es' ? 'Desarrollador Fullstack Junior · Campuslands / Globant' : 'Junior Fullstack Developer · Campuslands / Globant'}</div>
                   <div>{tx.home.languages}</div>
                   <div>{tx.home.motorsport}</div>
                   <div className="mt-3 font-bold text-accent-red">{tx.home.terminalBioCommand}</div>
@@ -392,11 +477,14 @@ export default function HomePage() {
                   <a href={profile.github} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-red px-3 py-2.5 font-bold text-cream no-underline shadow-neo-sm">
                     <Github size={16} /> {tx.home.githubProfile}
                   </a>
-                  <a href={profile.resume} download="Diego-Leon-Resume.txt" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-yellow px-3 py-2.5 font-bold text-ink no-underline shadow-neo-sm">
+                  <a href={profile.resume} download="Juan-Diego-Leon-Resume.txt" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-yellow px-3 py-2.5 font-bold text-ink no-underline shadow-neo-sm">
                     <Globe size={16} /> {tx.home.downloadResume}
                   </a>
                   <a href={profile.profileRepo} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-teal px-3 py-2.5 font-bold text-cream no-underline shadow-neo-sm">
                     <ArrowUpRight size={16} /> {tx.home.profileRepo}
+                  </a>
+                  <a href={`mailto:${profile.email}`} className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-cream px-3 py-2.5 font-bold text-ink no-underline shadow-neo-sm">
+                    <Mail size={16} /> {profile.email}
                   </a>
                 </div>
               </div>
@@ -421,8 +509,8 @@ export default function HomePage() {
                   transition={{ duration: 0.35, delay: index * 0.06 }}
                   className={`border-[3px] p-6 shadow-neo ${cardBg}`}
                 >
-                  <h3 className="font-display text-[20px] uppercase">{item.title}</h3>
-                  <p className={`mt-2 ${subtitleColor}`} style={{ lineHeight: '1.25' }}>{item.text}</p>
+                  <h3 className="font-display text-[20px] uppercase text-accent-red">{item.title}</h3>
+                  <p className={`mt-2 ${subtitleColor}`} style={{ lineHeight: '1.3' }}>{item.text}</p>
                 </motion.div>
               ))}
             </div>
@@ -435,7 +523,7 @@ export default function HomePage() {
               <h1 className={`mb-1.5 font-display text-[clamp(35px,5vw,50px)] uppercase leading-[.95] tracking-[-1px] ${headingColor}`}>
                 {tx.projects.heading}
               </h1>
-              <p className={`max-w-[620px] text-[20px] ${subtitleColor}`}>
+              <p className={`max-w-[680px] text-[20px] ${subtitleColor}`}>
                 {tx.projects.subline}
               </p>
             </div>
@@ -446,7 +534,7 @@ export default function HomePage() {
                   initial={{ opacity: 0, y: 16 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, amount: 0.2 }}
-                  transition={{ duration: 0.4, delay: index * 0.07 }}
+                  transition={{ duration: 0.4, delay: index * 0.05 }}
                   className={`neo-shadow-hover group flex flex-col border-[3px] p-6 shadow-neo ${cardBg}`}
                 >
                   <div className="flex items-center justify-between">
@@ -494,10 +582,10 @@ export default function HomePage() {
                   transition={{ duration: 0.35, delay: index * 0.06 }}
                   className={`border-[3px] p-6 shadow-neo ${cardBg}`}
                 >
-                  <h3 className="mb-4 font-display text-[20px] uppercase">{skill.category}</h3>
+                  <h3 className="mb-4 font-display text-[19px] uppercase text-accent-yellow">{skill.category}</h3>
                   <div className="flex flex-wrap gap-2">
                     {skill.items.map((item) => (
-                      <span key={item} className={`border-2 px-3 py-1 text-[14px] font-bold ${tagBg}`}>
+                      <span key={item} className={`border-2 px-3 py-1 text-[13px] font-bold ${tagBg}`}>
                         {item}
                       </span>
                     ))}
@@ -545,6 +633,36 @@ export default function HomePage() {
             </div>
           </section>
 
+          {/* ─ TESTIMONIALS / REFERENCES ─ */}
+          <section id="testimonials" className="mb-16 scroll-mt-24">
+            <div className="mb-8">
+              <span className="text-[12px] font-extrabold tracking-[2px] text-accent-teal">{tx.testimonials.label}</span>
+              <h1 className={`mb-1.5 font-display text-[clamp(35px,5vw,50px)] uppercase leading-[.95] tracking-[-1px] ${headingColor}`}>
+                {tx.testimonials.heading}
+              </h1>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2">
+              {testimonials.map((tItem, index) => (
+                <motion.div
+                  key={tItem.author}
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.35, delay: index * 0.06 }}
+                  className={`relative border-[3px] p-6 shadow-neo ${cardBg}`}
+                >
+                  <p className="text-[16px] italic leading-[1.4] text-accent-yellow">
+                    "{lang === 'es' ? tItem.quote : tItem.quoteEn}"
+                  </p>
+                  <div className="mt-4 border-t-2 border-inherit pt-3">
+                    <strong className="block font-display text-[17px] uppercase">{tItem.author}</strong>
+                    <span className={`text-[13px] ${subtitleColor}`}>{tItem.role}</span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </section>
+
           {/* ─ CONTACT ─ */}
           <section id="contact" className="mb-8 scroll-mt-24">
             <div className="-rotate-1 border-[3px] border-ink bg-accent-red p-6 text-cream shadow-neo md:p-8">
@@ -562,6 +680,12 @@ export default function HomePage() {
                 <a href={profile.profileRepo} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-[3px] border-ink bg-accent-yellow px-4 py-2.5 font-extrabold text-ink no-underline shadow-neo-sm">
                   <ArrowUpRight size={16} /> {tx.contact.profileRepo}
                 </a>
+                <a href={`mailto:${profile.email}`} className="neo-shadow-hover flex items-center gap-2 border-[3px] border-ink bg-accent-teal px-4 py-2.5 font-extrabold text-cream no-underline shadow-neo-sm">
+                  <Mail size={16} /> {profile.email}
+                </a>
+                <a href={`tel:${profile.phone.replace(/\s+/g, '')}`} className="neo-shadow-hover flex items-center gap-2 border-[3px] border-ink bg-paper px-4 py-2.5 font-extrabold text-ink no-underline shadow-neo-sm">
+                  <Phone size={16} /> {profile.phone}
+                </a>
               </div>
             </div>
           </section>
@@ -570,7 +694,7 @@ export default function HomePage() {
 
       {/* ── FOOTER ── */}
       <footer className="flex flex-col justify-between gap-4 border-t-[3px] border-ink bg-accent-yellow px-4 py-[15px] text-[13px] font-extrabold uppercase text-ink sm:flex-row sm:px-8">
-        <span>DIEGO LEÓN / {new Date().getFullYear()}</span>
+        <span>JUAN DIEGO LEÓN PRADA / {new Date().getFullYear()}</span>
         <span>{tx.footer.built}</span>
       </footer>
     </div>
