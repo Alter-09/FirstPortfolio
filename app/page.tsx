@@ -85,7 +85,7 @@ const profile = {
   email: 'diegoleonp09@gmail.com',
   phone: '+57 313 4451805',
   whatsapp: 'https://wa.me/573134451805',
-  linkedin: 'https://www.linkedin.com/in/diego-leon-prada',
+  linkedin: 'https://www.linkedin.com/in/juan-diego-le%C3%B3n-prada-6aab7037b/',
   github: 'https://github.com/Alter-09',
   profileRepo: 'https://github.com/Alter-09/alter-09',
   resume: '/resume.txt',
