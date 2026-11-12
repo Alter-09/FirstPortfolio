@@ -1,17 +1,29 @@
-Diego León
-Full Stack Developer
+Juan Diego León Prada
+Full Stack Developer & Applied AI
 
 Profile
-I am a developer focused on building practical software, improving workflows, and creating useful digital experiences. My work blends full-stack development, AI-assisted development, and hands-on problem solving.
+Desarrollador Fullstack Junior con formación técnica y experiencia práctica en desarrollo web, automatización de procesos con n8n e inteligencia artificial aplicada. Nivel de inglés C1 para trabajo y documentación técnica internacional.
 
-Experience
-- Software Developer at MySQL
-- Independent builder of practical web and productivity projects
+Featured Projects & Repositories
+- GoCampus: https://github.com/Alter-09/GoCampus
+- RapidExpress: https://github.com/Alter-09/RapidExpress
+- MetaNav: https://github.com/Alter-09/MetaNav (Demo: https://meta-nav.vercel.app)
+- NeoMetro: https://github.com/Alter-09/HackatonNeoMetro (Demo: https://hackaton-eta-three.vercel.app)
+- SISTEMA_AEROPUERTO: https://github.com/Alter-09/SISTEMA_AEROPUERTO
+- SmartCity-Fix: https://github.com/Alter-09/SmartCity-Fix
+- Python Ramp-Up: https://github.com/Alter-09/PYTHON---RAMPUP
+- Campusbuild: https://github.com/Alter-09/Campusbuild
 
-Skills
-- JavaScript, HTML, CSS, Python, MySQL, Docker
-- React, Next.js, Tailwind, REST APIs
-- Git, VS Code, AI-assisted development
+Core Technical Stack
+- Languages: Python, Java, JavaScript, TypeScript, HTML5, CSS3
+- Databases: PostgreSQL, MySQL
+- Automation & AI: n8n, Process Automation, Applied AI, Embeddings
+- Infrastructure & Tools: Docker, Git, GitHub, DBeaver, VS Code
+- Methodologies & Soft Skills: Scrum / Agile, C1 English, Teamwork
 
 Contact
-GitHub: https://github.com/Alter-09
+- GitHub: https://github.com/Alter-09
+- Email: diegoleonp09@gmail.com
+- WhatsApp / Phone: +57 313 4451805 (https://wa.me/573134451805)
+- LinkedIn: https://www.linkedin.com/in/diego-leon-prada
+- Location: Floridablanca, Santander, Colombia
