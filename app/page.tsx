@@ -1,6 +1,6 @@
 'use client';
 
-import { ArrowUpRight, Github, Globe, Mail, Moon, Phone, Sun } from 'lucide-react';
+import { ArrowUpRight, Github, Globe, Linkedin, Mail, MessageCircle, Moon, Phone, Sun } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 
@@ -84,12 +84,44 @@ const profile = {
   location: 'Floridablanca, Santander, Colombia',
   email: 'diegoleonp09@gmail.com',
   phone: '+57 313 4451805',
+  whatsapp: 'https://wa.me/573134451805',
+  linkedin: 'https://www.linkedin.com/in/diego-leon-prada',
   github: 'https://github.com/Alter-09',
   profileRepo: 'https://github.com/Alter-09/alter-09',
   resume: '/resume.txt',
 };
 
 const projects = [
+  {
+    title: 'GoCampus',
+    summary: {
+      es: 'Sistema de gestión operativa web para reserva de espacios físicos, control de préstamo de periféricos y triaje inteligente asistido por IA.',
+      en: 'Central web operations platform for space reservations, hardware checkouts, and AI-assisted incident triage.',
+    },
+    tags: ['Java', 'IA Aplicada', 'Web App', 'MySQL'],
+    demo: 'https://github.com/Alter-09/GoCampus',
+    github: 'https://github.com/Alter-09/GoCampus',
+  },
+  {
+    title: 'RapidExpress',
+    summary: {
+      es: 'Sistema backend CLI para automatización y optimización integral de flota de vehículos, personal de conducción, rutas y paquetería.',
+      en: 'Backend CLI system for end-to-end fleet automation, driver operations, route planning, and express parcel logistics tracking.',
+    },
+    tags: ['Java', 'CLI', 'Logistics', 'OOP'],
+    demo: 'https://github.com/Alter-09/RapidExpress',
+    github: 'https://github.com/Alter-09/RapidExpress',
+  },
+  {
+    title: 'MetaNav',
+    summary: {
+      es: 'Organizador de tareas y enfoque diario con diseño neubrutalista, módulos de kanban, reflexión y seguimiento de hábitos.',
+      en: 'Daily task and focus organizer with neubrutalist design, kanban modules, daily reflection, and habit tracking.',
+    },
+    tags: ['CSS', 'JavaScript', 'Productivity', 'UX'],
+    demo: 'https://meta-nav.vercel.app',
+    github: 'https://github.com/Alter-09/MetaNav',
+  },
   {
     title: 'NeoMetro',
     summary: {
@@ -101,14 +133,14 @@ const projects = [
     github: 'https://github.com/Alter-09/HackatonNeoMetro',
   },
   {
-    title: 'MundoFutbol Bot',
+    title: 'SISTEMA_AEROPUERTO',
     summary: {
-      es: 'Sistema automatizado de gestión de suscripciones para streaming deportivo en Telegram con generación de llaves de licencia y flujos PostgreSQL en n8n.',
-      en: 'Automated sports streaming subscription system for Telegram bot with license key generation and PostgreSQL n8n workflows.',
+      es: 'Sistema empresarial Java con arquitectura en capas para administrar vuelos, pilotos, pasajeros y aeropuertos con persistencia JSON.',
+      en: 'Layered Java enterprise system for managing flights, pilots, passengers, and airports with clean OOP and JSON persistence.',
     },
-    tags: ['n8n', 'PostgreSQL', 'JavaScript', 'Telegram API'],
-    demo: 'https://github.com/Alter-09',
-    github: 'https://github.com/Alter-09',
+    tags: ['Java', 'OOP', 'Maven', 'Architecture'],
+    demo: 'https://github.com/Alter-09/SISTEMA_AEROPUERTO',
+    github: 'https://github.com/Alter-09/SISTEMA_AEROPUERTO',
   },
   {
     title: 'SmartCity-Fix',
@@ -121,62 +153,32 @@ const projects = [
     github: 'https://github.com/Alter-09/SmartCity-Fix',
   },
   {
-    title: 'RapidExpres',
+    title: 'Python Ramp-Up',
     summary: {
-      es: 'Plataforma de gestión logística y seguimiento de envíos exprés con optimización de rutas y panel de control en tiempo real.',
-      en: 'Logistics management and express parcel tracking platform with route optimization and real-time control dashboard.',
+      es: 'Ruta intensiva de 8 semanas: desde algoritmos fundamentales y estructuras de datos hasta programación orientada a objetos en Python.',
+      en: '8-week intensive path: from core algorithmic fundamentals and data structures to object-oriented architecture in Python.',
     },
-    tags: ['JavaScript', 'Logistics', 'Web App'],
-    demo: 'https://github.com/Alter-09',
-    github: 'https://github.com/Alter-09',
+    tags: ['Python', 'Algorithms', 'OOP', 'Data Structures'],
+    demo: 'https://github.com/Alter-09/PYTHON---RAMPUP',
+    github: 'https://github.com/Alter-09/PYTHON---RAMPUP',
   },
   {
-    title: 'SISTEMA_AEROPUERTO',
+    title: 'Campusbuild',
     summary: {
-      es: 'Sistema empresarial Java con arquitectura en capas para administrar vuelos, pilotos, pasajeros y aeropuertos con persistencia JSON.',
-      en: 'Layered Java enterprise system for managing flights, pilots, passengers, and airports with clean OOP and JSON persistence.',
+      es: 'Aplicación web para gestión temporal y control de proyectos colaborativos, con seguimiento de estados y calendario interactivo integrado.',
+      en: 'Web application for collaborative project timeline tracking, status management, and integrated interactive calendar.',
     },
-    tags: ['Java', 'OOP', 'Maven'],
-    demo: 'https://github.com/Alter-09/SISTEMA_AEROPUERTO',
-    github: 'https://github.com/Alter-09/SISTEMA_AEROPUERTO',
+    tags: ['JavaScript', 'Web App', 'Calendar', 'Productivity'],
+    demo: 'https://github.com/Alter-09/Campusbuild',
+    github: 'https://github.com/Alter-09/Campusbuild',
   },
   {
-    title: 'AMB-exam',
+    title: 'MundoFutbol Bot',
     summary: {
-      es: 'Motor de evaluaciones y exámenes técnicos para verificación de competencias con seguimiento de resultados y análisis de desempeño.',
-      en: 'Technical assessment and exam engine for competency verification with result tracking and performance analytics.',
+      es: 'Sistema automatizado de gestión de suscripciones para streaming deportivo en Telegram con generación de llaves de licencia y flujos PostgreSQL en n8n.',
+      en: 'Automated sports streaming subscription system for Telegram bot with license key generation and PostgreSQL n8n workflows.',
     },
-    tags: ['JavaScript', 'Assessment', 'Education'],
-    demo: 'https://github.com/Alter-09',
-    github: 'https://github.com/Alter-09',
-  },
-  {
-    title: 'MetaNav',
-    summary: {
-      es: 'Organizador de tareas y enfoque diario con diseño neubrutalista, módulos de kanban, reflexión y seguimiento de hábitos.',
-      en: 'Daily task and focus organizer with neubrutalist design, kanban modules, daily reflection, and habit tracking.',
-    },
-    tags: ['CSS', 'JavaScript', 'Productivity'],
-    demo: 'https://meta-nav.vercel.app',
-    github: 'https://github.com/Alter-09/MetaNav',
-  },
-  {
-    title: 'MusicStream',
-    summary: {
-      es: 'Simulación de plataforma de streaming musical interactiva con catálogo de compra de álbumes y sencillos.',
-      en: 'Interactive music streaming platform simulation featuring album catalog and single track purchase workflows.',
-    },
-    tags: ['HTML5', 'CSS', 'JavaScript'],
-    demo: 'https://github.com/Alter-09',
-    github: 'https://github.com/Alter-09',
-  },
-  {
-    title: 'EduSprint',
-    summary: {
-      es: 'Planeación y arquitectura ágil de aplicación colaborativa para optimización de flujos Scrum y trabajo en equipo.',
-      en: 'Agile planning and collaborative architecture blueprint for Scrum workflows and sprint management.',
-    },
-    tags: ['Scrum', 'Agile', 'Planning'],
+    tags: ['n8n', 'PostgreSQL', 'JavaScript', 'Telegram API'],
     demo: 'https://github.com/Alter-09',
     github: 'https://github.com/Alter-09',
   },
@@ -476,12 +478,18 @@ export default function HomePage() {
               </div>
               <div className="rotate-[2deg] border-[3px] border-ink bg-ink p-6 text-cream shadow-neo">
                 <h2 className="m-0 mb-2 font-display text-[27px] uppercase leading-none text-accent-yellow">{tx.home.quickActions}</h2>
-                <div className="mt-4 grid gap-2.5">
-                  <a href={profile.resume} download="Juan-Diego-Leon-Resume.txt" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-yellow px-3 py-2.5 font-bold text-ink no-underline shadow-neo-sm">
-                    <ArrowUpRight size={16} /> {tx.home.downloadResume}
+                <div className="mt-4 grid gap-2">
+                  <a href={profile.resume} download="Juan-Diego-Leon-Resume.txt" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-yellow px-3 py-2 text-[14px] font-bold text-ink no-underline shadow-neo-sm">
+                    <ArrowUpRight size={15} /> {tx.home.downloadResume}
                   </a>
-                  <a href={`mailto:${profile.email}`} className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-teal px-3 py-2.5 font-bold text-cream no-underline shadow-neo-sm">
-                    <Mail size={16} /> {profile.email}
+                  <a href={profile.linkedin} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-paper px-3 py-2 text-[14px] font-bold text-ink no-underline shadow-neo-sm">
+                    <Linkedin size={15} /> LinkedIn
+                  </a>
+                  <a href={profile.whatsapp} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-yellow px-3 py-2 text-[14px] font-bold text-ink no-underline shadow-neo-sm">
+                    <MessageCircle size={15} /> WhatsApp
+                  </a>
+                  <a href={`mailto:${profile.email}`} className="neo-shadow-hover flex items-center gap-2 border-2 border-ink bg-accent-teal px-3 py-2 text-[14px] font-bold text-cream no-underline shadow-neo-sm">
+                    <Mail size={15} /> {profile.email}
                   </a>
                 </div>
               </div>
@@ -674,6 +682,12 @@ export default function HomePage() {
                 </a>
                 <a href={profile.profileRepo} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-[3px] border-ink bg-accent-yellow px-4 py-2.5 font-extrabold text-ink no-underline shadow-neo-sm">
                   <ArrowUpRight size={16} /> {tx.contact.profileRepo}
+                </a>
+                <a href={profile.linkedin} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-[3px] border-ink bg-paper px-4 py-2.5 font-extrabold text-ink no-underline shadow-neo-sm">
+                  <Linkedin size={16} /> LinkedIn
+                </a>
+                <a href={profile.whatsapp} target="_blank" rel="noreferrer" className="neo-shadow-hover flex items-center gap-2 border-[3px] border-ink bg-accent-yellow px-4 py-2.5 font-extrabold text-ink no-underline shadow-neo-sm">
+                  <MessageCircle size={16} /> WhatsApp
                 </a>
                 <a href={`mailto:${profile.email}`} className="neo-shadow-hover flex items-center gap-2 border-[3px] border-ink bg-accent-teal px-4 py-2.5 font-extrabold text-cream no-underline shadow-neo-sm">
                   <Mail size={16} /> {profile.email}
